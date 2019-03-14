@@ -1,0 +1,27 @@
+﻿.ui-accordion {
+    text-align: center;
+    background-color: #3fc35f;
+}
+
+.ui-accordion-content {
+    text-align: center;
+    background: #3fc35f
+}
+
+#accordion {
+    margin-top: 10px;
+}
+#accordion .ui-state-active {
+    border: 1px solid #3fc35f;
+    background: #3fc35f
+}
+
+#fieldsetNameSearch
+{
+    margin-top: 20px;
+}
+
+.checked {
+    color: orange;
+}
+

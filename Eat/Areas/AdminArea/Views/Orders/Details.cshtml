@@ -1,0 +1,75 @@
+﻿@model Eat.Models.Order
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/AdminArea/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Order</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Restaurant.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Restaurant.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.User.Avatar)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.User.Avatar)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.User1.Avatar)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.User1.Avatar)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.User2.Avatar)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.User2.Avatar)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TimeCreated)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TimeCreated)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TimeChanged)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TimeChanged)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

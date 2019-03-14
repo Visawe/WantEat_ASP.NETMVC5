@@ -1,0 +1,73 @@
+﻿@model Eat.Models.RestaurantReview
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Areas/AdminArea/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>RestaurantReview</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Restaurant.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Restaurant.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RestaurantReview1.Review)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RestaurantReview1.Review)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.User.Avatar)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.User.Avatar)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Review)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Review)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Stars)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Stars)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Time)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Time)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

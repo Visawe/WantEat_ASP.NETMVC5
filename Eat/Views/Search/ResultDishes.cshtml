@@ -1,0 +1,251 @@
+﻿@model Eat.Models.ViewModels.DishResultSearchViewModel
+
+@{
+    ViewBag.Title = "ResultDishes";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Start Proerty header  -->
+<section id="aa-property-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="aa-property-header-inner">
+                    <h2>Results page</h2>
+                    <ol class="breadcrumb">
+                        <li><a href="@Url.Action("Index", "Home")">HOME</a></li>
+                        <li class="active">Found objects</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End Proerty header  -->
+<!-- Start Properties  -->
+<section id="aa-properties">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="aa-properties-content">
+                    <h4>Параметры поиска:</h4>
+                    <p> @Model.ModelSearch.ToStringForDish() </p>
+                </div>
+                <div class="aa-properties-content">
+                    <!-- start properties content head -->
+                    <div class="aa-properties-content-head">
+                        <div class="aa-properties-content-head-left">
+                            <form action="" class="aa-sort-form">
+                                <label for="">Sort by</label>
+                                <select name="">
+                                    <option value="1" selected="Default">Default</option>
+                                    <option value="2">Name</option>
+                                    <option value="3">Price</option>
+                                    <option value="4">Date</option>
+                                </select>
+                            </form>
+                            <form action="" class="aa-show-form">
+                                <label for="">Show</label>
+                                <select name="">
+                                    <option value="1" selected="12">6</option>
+                                    <option value="2">12</option>
+                                    <option value="3">24</option>
+                                </select>
+                            </form>
+                        </div>
+                        <div class="aa-properties-content-head-right">
+                            <a id="aa-grid-properties" href="#"><span class="fa fa-th"></span></a>
+                            <a id="aa-list-properties" href="#"><span class="fa fa-list"></span></a>
+                        </div>
+                    </div>
+                    <!-- Start properties content body -->
+                    <div class="aa-properties-content-body">
+                        <ul class="aa-properties-nav">
+                            @foreach (var item in Model.Dishes)
+                            {
+                                <li>
+                                    <article class="aa-properties-item">
+
+                                        <a class="aa-properties-item-img" href="@Url.Action("Details","Restaurant",new { id = item.Restaurant.Id } )">
+                                            @if (item.PathDishFoto != null)
+                                            {
+                                            <img alt="img" src="@Url.Content(item.PathDishFoto)" width="370" height="220">
+                                            }
+                                            <div class="aa-properties-about"><i class="fa fa-map-marker"></i> @item.Restaurant.Address.ToStringShort()</div>
+                                            <h4 style="color:#3fc35f">@item.Restaurant.Name</h4>
+                                        </a>
+
+                                        <div class="aa-properties-item-content">
+                                            <div class="aa-properties-info">
+                                                @if (item.Recommendation != null)
+                                                {
+                                                    <span class="fa fa-star checked">
+
+                                                       @item.Recommendation Like!
+
+                                                    </span>
+                                                }
+
+                                                <span class="fa fa-rectangle-wide">
+                                                    Вес: @if(item.WeightAll != null)
+                                                    {
+                                                        @item.WeightAll;
+                                                    }
+                                                    else
+                                                    {
+                                                        @item.WeightPart;
+                                                    }
+                                                    @item.WeightUnit.Type
+                                                </span>
+                                                <span class="fa fa-cutlery"> Блюд</span>
+                                            </div>
+                                            <div class="aa-properties-about">
+                                                <h3><a href="@Url.Action("Details","Restaurant",new { id = item.Restaurant.Id } )">@item.Name</a></h3>
+                                                <p>
+                                                    @if (item.Description != null)
+                                                    {
+                                                        if (item.Description.Length > 100)
+                                                        {
+                                                            <span>@item.Description.Substring(0, 100)</span> <span>...</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span>@item.Description</span>
+                                                        }
+                                                    }
+                                                </p>
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim molestiae vero ducimus quibusdam odit vitae.</p>
+                                            </div>
+                                            <div class="aa-properties-detial">
+                                                <span class="aa-price">
+                                                    Цена: @item.Price @item.PriceCurrency.Type
+                                                </span>
+                                                @using Eat.Models.ViewModels;
+                                                <a class="aa-secondary-btn" href="@Url.Action("ViewDetailsSearchRestaurant", "Search", new { IdRest = item.Id, Place = Model.ModelSearch.Place, Date = Model.ModelSearch.Date, Time = Model.ModelSearch.Time, NumberPersons = Model.ModelSearch.NumberPersons, TypeSearch = Model.TypeSearch} )">Заказать</a>
+
+                                            </div>
+                                        </div>
+                                    </article>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                    <!-- Start properties content bottom -->
+                    <div class="aa-properties-content-bottom">
+                        <nav>
+                            <ul class="pagination">
+                                <li>
+                                    <a href="#" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+                                <li class="active"><a href="#">1</a></li>
+                                <li><a href="#">2</a></li>
+                                <li><a href="#">3</a></li>
+                                <li><a href="#">4</a></li>
+                                <li><a href="#">5</a></li>
+                                <li>
+                                    <a href="#" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <!-- Start properties sidebar -->
+            <div class="col-md-4">
+                <aside class="aa-properties-sidebar">
+                    <!-- Start Single properties sidebar -->
+                    <div class="aa-properties-single-sidebar">
+                        <h3>Properties Search</h3>
+                        <form action="">
+                            <div class="aa-single-advance-search">
+                                <input type="text" placeholder="Type Your Location" value="@Model.ModelSearch.Place">
+                            </div>
+
+                            <div class="aa-single-advance-search ">
+                                <label for="example-date-input" class="col-md-2 col-form-label">Date</label>
+                                <input class="form-control" type="date" name="Date" value="" id="example-date-input">
+                            </div>
+
+
+                            <div class="aa-single-advance-search ">
+                                <label for="example-time-input" class="col-md-2 col-form-label">Time</label>
+                                <input class="form-control" step="900" type="time" name="Time" value="@Model.ModelSearch.Time" id="example-time-input">
+                            </div>
+
+
+                            <div class="aa-single-advance-search ">
+                                <label for="example-number-input" class="col-md-2 col-form-label">Persons</label>
+                                <input class="form-control" type="number" name="NumberPersons" min="0" value="@Model.ModelSearch.NumberPersons" id="example-number-input">
+                            </div>
+                            <div class="aa-single-filter-search">
+                                <span>AREA (SQ)</span>
+                                <span>FROM</span>
+                                <span id="skip-value-lower" class="example-val">30.00</span>
+                                <span>TO</span>
+                                <span id="skip-value-upper" class="example-val">100.00</span>
+                                <div id="aa-sqrfeet-range" class="noUi-target noUi-ltr noUi-horizontal noUi-background">
+                                </div>
+                            </div>
+                            <div class="aa-single-filter-search">
+                                <span>PRICE ($)</span>
+                                <span>FROM</span>
+                                <span id="skip-value-lower2" class="example-val">30.00</span>
+                                <span>TO</span>
+                                <span id="skip-value-upper2" class="example-val">100.00</span>
+                                <div id="aa-price-range" class="noUi-target noUi-ltr noUi-horizontal noUi-background">
+                                </div>
+                            </div>
+                            <div class="aa-single-advance-search">
+                                <input type="submit" value="Search" class="aa-search-btn">
+                            </div>
+                        </form>
+                    </div>
+                    <!-- Start Single properties sidebar -->
+                    <div class="aa-properties-single-sidebar">
+                        <h3>Populer Properties</h3>
+                        <div class="media">
+                            <div class="media-left">
+                                <a href="#">
+                                    <img class="media-object" src="img/item/1.jpg" alt="img">
+                                </a>
+                            </div>
+                            <div class="media-body">
+                                <h4 class="media-heading"><a href="#">This is Title</a></h4>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                                <span>$65000</span>
+                            </div>
+                        </div>
+                        <div class="media">
+                            <div class="media-left">
+                                <a href="#">
+                                    <img class="media-object" src="img/item/1.jpg" alt="img">
+                                </a>
+                            </div>
+                            <div class="media-body">
+                                <h4 class="media-heading"><a href="#">This is Title</a></h4>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                                <span>$65000</span>
+                            </div>
+                        </div>
+                        <div class="media">
+                            <div class="media-left">
+                                <a href="#">
+                                    <img class="media-object" src="img/item/1.jpg" alt="img">
+                                </a>
+                            </div>
+                            <div class="media-body">
+                                <h4 class="media-heading"><a href="#">This is Title</a></h4>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                                <span>$65000</span>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,124 @@
+﻿@model IEnumerable<Eat.Models.OrderTable>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/AdminArea/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Order.ClientUserId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PaymentType.Type)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Table.PathTableFoto)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.User.Avatar)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AnswerManager)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NumberPeople)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OrderTimeFrom)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OrderTimeTo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BookingMinutes)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NeedPrepayment)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ReceivedPrepayment)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StatusPayment)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TimeCreated)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TimeChanged)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Order.ClientUserId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PaymentType.Type)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Table.PathTableFoto)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.User.Avatar)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Status)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AnswerManager)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NumberPeople)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OrderTimeFrom)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OrderTimeTo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BookingMinutes)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NeedPrepayment)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ReceivedPrepayment)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StatusPayment)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TimeCreated)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TimeChanged)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

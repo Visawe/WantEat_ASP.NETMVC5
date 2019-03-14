@@ -1,0 +1,335 @@
+﻿@model Eat.Models.Restaurant
+
+@{
+    ViewBag.Title = "Details";
+    
+}
+@Scripts.Render("~/bundles/jquery")
+@Styles.Render("~/ContentUser/css")
+@Scripts.Render("~/bundles/myUserScript")
+
+
+<div>
+    <!-- Start Properties  -->
+    <section id="aa-properties">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="aa-properties-content">
+                    <!-- Start properties content body -->
+                    <div class="aa-properties-details">
+                        <div class="aa-properties-details-img">
+                            <img src="@Url.Content(Model.PathMainFoto)" alt="img">
+                            @foreach (var item in Model.RestaurantPhotoes)
+                            {
+                                <img src="@Url.Content(item.Path)" alt="img">
+                            }
+                        </div>
+                        @if (this.User.IsInRole("Admin"))
+                        {
+                            <input type="button" class="btn btn-info" value="Edit Foto" onclick="location.href='@Url.Action("Action", "Controller")'" />
+                        }
+                            <div class="aa-properties-info">
+                                <h2>@Model.Slogan</h2>
+                                <span class="aa-price">Средний чек: @Model.AverageCheckRestaurant @Model.AverageCheckRestaurantCurrency.Type</span>
+                                <p> @Html.DisplayFor(modelItem => modelItem.Description)</p>
+                                @if (this.User.IsInRole("Admin"))
+                                {
+                                    <input type="button" class="btn btn-info" value="Edit Description" onclick="location.href='@Url.Action("Edit", "Restaurant", new { id = Model.Id })'" />
+                                }
+                                <h4>Object Features</h4>
+                                <ul>
+                                    @foreach (var item in Model.Attributes)
+                                    {
+                                        <li>@item.Type</li>
+                                    }
+                                </ul>
+                                @if (this.User.IsInRole("Admin"))
+                                {
+                                    <input type="button" class="btn btn-info" value="Edit Features" onclick="location.href='@Url.Action("EditAttributes", "Restaurant", Model)'" />
+                                }
+                                <h4>Property Video</h4>
+                                @if (Model.PathYoutube != null)
+                                {
+                                    <iframe width="100%" height="480" src="@Model.PathYoutube" frameborder="0" allowfullscreen></iframe>
+                                }
+                                <h4>Address</h4>
+
+                                <p><i class="fa fa-map-marker"></i> @Html.DisplayFor(modelItem => Model.Address.City) @Model.Address.Street @Model.Address.House</p>
+                                <h4>Property Map</h4>
+                                @if (Model.PathGoogleMap != null)
+                                {
+                                    <iframe src="@Model.PathGoogleMap" width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+                                }
+
+                                <h5>Parking</h5>
+                                @foreach (var item in Model.Parkings)
+                                {
+                                    <p>
+                                        @item.Description
+                                    </p>
+                                }
+
+                            </div>
+                            <!-- Properties social share -->
+                            <div class="aa-properties-social">
+                                <ul>
+                                    <li>Share</li>
+                                    <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-pinterest"></i></a></li>
+                                </ul>
+                            </div>
+                            <!-- Nearby properties -->
+                            <div class="aa-nearby-properties">
+                                <div class="aa-title">
+                                    <h2>Reviews Общий рейтинг @Model.GoogleRestaurantDetails.Rating</h2>
+                                    <span></span>
+                                </div>
+                                <div class="aa-nearby-properties-area">
+                                    <div class="row">
+
+                                        @if (Model.GoogleRestaurantDetails.GoogleReviews.Count > 0)
+                                        {
+                                            var number = 0;
+                                            if (Model.GoogleRestaurantDetails.GoogleReviews.Count >= 6)
+                                            {
+                                                number = 6;
+                                            }
+                                            else
+                                            {
+                                                number = Model.GoogleRestaurantDetails.GoogleReviews.Count;
+                                            }
+                                            foreach (var item in Model.GoogleRestaurantDetails.GoogleReviews.Take(number))
+                                            {
+                                                <div class="col-md-4">
+                                                    <article class="aa-properties-item">
+                                                        <a class="aa-properties-item-img" href="@item.Author_url">
+                                                            <img alt="img" src="@item.Profile_photo_url" width="50">
+                                                        </a>
+                                                        <div class="aa-properties-item-content">
+                                                            <div class="aa-properties-info">
+                                                                @for (int i = 0; i < item.Rating; i++)
+                                                                {
+                                                                    <span class="fa fa-star checked"></span>
+                                                                }
+                                                                @for (int i = 0; i < 5 - item.Rating; i++)
+                                                                {
+                                                                    <span class="fa fa-star"></span>
+                                                                }
+                                                            </div>
+                                                            <div class="aa-properties-about">
+                                                                <h3><a href="@item.Profile_photo_url">@item.Author_name</a></h3>
+                                                                <p>@item.Text</p>
+                                                            </div>
+                                                            <div class="aa-properties-detial">
+
+                                                                <a class="aa-secondary-btn" href="@item.Profile_photo_url"> @item.Relative_time_description</a>
+                                                            </div>
+                                                        </div>
+                                                    </article>
+                                                </div>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <div> Пока нет отзывов</div>
+                                        }
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                </div>
+            </div>
+            <!-- Start properties sidebar -->
+            <div class="col-md-4">
+                <aside class="aa-properties-sidebar">
+                    <div class="aa-properties-single-sidebar">
+                        <h3> Hours of operation</h3>
+                        <ul>
+                            @if (@Model.WorkSchedules.FirstOrDefault() != null)
+                            {
+                                if ((Model.WorkSchedules.FirstOrDefault().TimeFrom == Model.WorkSchedules.FirstOrDefault().TimeTo) && (Model.WorkSchedules.FirstOrDefault().DayOfWeek == 8))
+                                {
+                                    <li><span>Круглосуточно</span></li>
+                                }
+                                else if (Model.WorkSchedules.FirstOrDefault().DayOfWeek == 8)
+                                {
+                                    <li>
+                                        @Model.WorkSchedules.FirstOrDefault().TimeFrom
+                                        <span>-</span> @Model.WorkSchedules.FirstOrDefault().TimeTo
+                                    </li>
+                                }
+                                else
+                                {
+
+                                    var message = "";
+                                    foreach (var item in Model.WorkSchedules)
+                                    {
+                                        switch (item.DayOfWeek)
+                                        {
+                                            case 1:
+                                                message = "Понедельник";
+                                                break;
+                                            case 2:
+                                                message = "Вторник";
+                                                break;
+                                            case 3:
+                                                message = "Среда";
+                                                break;
+                                            case 4:
+                                                message = "Четверг";
+                                                break;
+                                            case 5:
+                                                message = "Пятница";
+                                                break;
+                                            case 6:
+                                                message = "Суббота";
+                                                break;
+                                            case 0:
+                                                message = "Воскресенье";
+                                                break;
+                                            default:
+                                                break;
+                                        }
+                                        <li>@message @item.TimeFrom <span>-</span> @item.TimeTo</li>
+                                    }
+                                }
+                            }
+                        </ul>
+                        @if (this.User.IsInRole("Admin"))
+                        {
+                            <input type="button" class="btn btn-info" value="Edit Hours of operation" onclick="location.href='@Url.Action("Action", "Controller")'" />
+                        }
+                        </div>
+                    <div class="aa-properties-single-sidebar">
+                        <h3>Cuisine</h3>
+                        <ul>
+                            @foreach (var item in Model.NationalCuisines)
+                            {
+                                <li>@item.Type</li>
+                            }
+                        </ul>
+                        @if (this.User.IsInRole("Admin"))
+                        {
+                            <input type="button" class="btn btn-info" value="Edit Cuisine" onclick="location.href='@Url.Action("Action", "Controller")'" />
+                        }
+                        </div>
+                    <div class="aa-properties-single-sidebar">
+                        <h3>Payment options</h3>
+                        <ul>
+                            @foreach (var item in Model.PaymentTypes)
+                            {
+                                <li>@item.Type</li>
+                            }
+                        </ul>
+                        @if (this.User.IsInRole("Admin"))
+                        {
+                            <input type="button" class="btn btn-info" value="Edit Cuisine" onclick="location.href='@Url.Action("Action", "Controller")'" />
+                        }
+                        </div>
+                    <div class="aa-properties-single-sidebar">
+                        <h3> Dress code</h3>
+                        <p>@Model.DressCode</p>
+                        @if (this.User.IsInRole("Admin"))
+                        {
+                            <input type="button" class="btn btn-info" value="Edit DressCode" onclick="location.href='@Url.Action("Action", "Controller")'" />
+                        }
+                        </div>
+
+                    <div class="aa-properties-single-sidebar">
+                        <h3>Tables</h3>
+                        @if (Model.Tables.Count > 0)
+                        {
+                            var number = 0;
+                            if (Model.Tables.Count >= 5)
+                            {
+                                number = 5;
+                            }
+                            else
+                            {
+                                number = Model.Tables.Count;
+                            }
+                            foreach (var item in Model.Tables.Take(number))
+                            {
+                                <div class="media">
+                                    <div class="media-left">
+                                        <a href="#">
+                                            @if (item.PathTableFoto != null)
+                                            {
+                                                <img class="media-object" src="@Url.Content(item.PathTableFoto)" alt="img">
+                                            }
+                                        </a>
+                                    </div>
+                                    <div class="media-body">
+                                        <h4 class="media-heading"><a href="#">@item.Name</a></h4>
+                                        <p>@item.Description</p>
+                                        <span>Максимальное кол-во человек @item.MaxNumberPeople</span>
+                                    </div>
+                                </div>
+                            }
+                        }
+                        <input type="button" class="btn btn-success" value="More Tables" onclick="location.href='@Url.Action("Action", "Controller")'" />
+                    </div>
+                    <div class="aa-properties-single-sidebar">
+                        <h3>Dishes</h3>
+                        @if (Model.Dishes.Count > 0)
+                        {
+
+                            var number2 = 0;
+                            if (Model.Dishes.Count >= 5)
+                            {
+                                number2 = 5;
+                            }
+                            else
+                            {
+                                number2 = Model.Dishes.Count;
+                            }
+
+                            foreach (var item in Model.Dishes.Take(number2))
+                            {
+                                <div class="media">
+                                    <div class="media-left">
+                                        <a href="#">
+                                            @if (item.PathDishFoto != null)
+                                            {
+                                                <img class="media-object" src="@Url.Content(item.PathDishFoto)" alt="img">
+                                            }
+                                        </a>
+                                    </div>
+                                    <div class="media-body">
+                                        <h4 class="media-heading"><a href="#">@item.Name</a></h4>
+                                        <p>
+                                            @item.Description
+                                            @if (@item.WeightAll != null)
+                                            {
+                                                @item.WeightAll @item.WeightUnit.Type
+                                            }
+                                            else if (@item.WeightPart != null)
+                                            {
+                                                @item.WeightPart @item.WeightUnit.Type
+                                            }
+                                        </p>
+                                        <span>
+                                            @if (item.Price != null)
+                                            {@item.Price @item.PriceCurrency.Type}
+                                    </span>
+                                </div>
+                            </div>
+
+                        }
+                    }
+                        <input type="button" class="btn btn-success" value="More Dishes" onclick="location.href='@Url.Action("Action", "Controller")'" />
+                    </div>
+                </aside>
+
+
+            </div>
+        </div>
+    </section>
+    <!-- / Properties  -->
+
+</div>
+

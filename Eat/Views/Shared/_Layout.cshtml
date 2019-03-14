@@ -1,0 +1,135 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Want Eat</title>
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="~/Images/Site/favicon.ico" type="image/x-icon">
+
+    <!-- Font Awesome Icons -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+    <!-- Google Font -->
+    <link href='https://fonts.googleapis.com/css?family=Vollkorn' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+
+    <!-- Font Awesome Icons -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    @Styles.Render("~/ContentUser/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body class="aa-price-range">
+    <!-- Pre Loader -->
+    @*<div id="aa-preloader-area">
+            <div class="pulse"></div>
+        </div>*@
+    <!-- SCROLL TOP BUTTON -->
+    <a class="scrollToTop" href="#"><i class="fa fa-angle-double-up"></i></a>
+    <!-- END SCROLL TOP BUTTON -->
+    <!-- Start menu section -->
+    <section id="aa-menu-area">
+        <nav class="navbar navbar-default main-navbar" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <!-- FOR MOBILE VIEW COLLAPSED BUTTON -->
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <!-- LOGO -->
+                    <!-- Text based logo -->
+                    <a class="navbar-brand aa-logo" href="#"> Want <span>Eat</span></a>
+                    <!-- Image based logo -->
+                    <!-- <a class="navbar-brand aa-logo-img" href="index.html"><img src="img/logo.png" alt="logo"></a> -->
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul id="top-menu" class="nav navbar-nav navbar-left aa-main-nav">
+                        <li class="active"><a href="@Url.Action("Index", "Home")">HOME</a></li>
+                        <li><a href="#">GALLERY</a></li>
+                        @if (this.User.IsInRole("Client"))
+                        {
+                            <li><a href="@Url.Action("Index", "Home", new { Area = "AdminArea" })">MY ORDERS</a></li>
+                        }
+                        @if (this.User.Identity.IsAuthenticated)
+                        {
+                        <li><a href="@Url.Action("Index", "ProfileUsers")">PROFILE</a></li>
+                        }
+                        @*<li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="blog-archive.html">PROFILE <span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+                <li><a href="blog-archive.html">PROFILE</a></li>
+                <li><a href="blog-single.html">BLOG DETAILS</a></li>
+            </ul>
+        </li>*@
+                        <li><a href="contact.html">CONTACT</a></li>
+                        <li><a href="contact.html">FAQ</a></li>
+                        @if (this.User.IsInRole("Admin"))
+                        {
+                            <li><a href="@Url.Action("Index", "Home", new { Area = "AdminArea" })">ADMIN</a></li>
+                        }
+
+                    </ul>
+                    @Html.Partial("_LoginPartial")
+                </div><!--/.nav-collapse -->
+            </div>
+        </nav>
+    </section>
+    <!-- End menu section -->
+    @*<div class="container body-content">*@
+    <div>
+        @RenderBody()
+        <hr />
+
+
+        <!-- Footer -->
+        <footer id="aa-footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="aa-footer-area">
+                            <div class="row">
+                                <div class="col-md-3 col-sm-6 col-xs-12">
+                                    <div class="aa-footer-left">
+                                        <p>Designed by <a rel="nofollow" href="http://www.markups.io/">MarkUps.io</a></p>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-sm-6 col-xs-12">
+                                    <div class="aa-footer-middle">
+                                        <a href="#"><i class="fa fa-facebook"></i></a>
+                                        <a href="#"><i class="fa fa-twitter"></i></a>
+                                        <a href="#"><i class="fa fa-google-plus"></i></a>
+                                        <a href="#"><i class="fa fa-youtube"></i></a>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-12 col-xs-12">
+                                    <div class="aa-footer-right">
+                                        <a href="@Url.Action("Index", "Home")">Home</a>
+                                        <a href="#">Support</a>
+                                        <a href="#">License</a>
+                                        <a href="#">FAQ</a>
+                                        <a href="#">Privacy & Term</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- / Footer -->
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/myUserScript");
+    @RenderSection("scripts", required: false)
+
+</body>
+</html>

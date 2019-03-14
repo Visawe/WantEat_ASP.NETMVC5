@@ -1,0 +1,147 @@
+﻿@model Eat.Models.OrderTable
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/AdminArea/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>OrderTable</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Order.ClientUserId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Order.ClientUserId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PaymentType.Type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PaymentType.Type)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Table.PathTableFoto)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Table.PathTableFoto)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.User.Avatar)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.User.Avatar)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AnswerManager)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AnswerManager)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NumberPeople)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NumberPeople)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OrderTimeFrom)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OrderTimeFrom)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OrderTimeTo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OrderTimeTo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BookingMinutes)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BookingMinutes)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NeedPrepayment)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NeedPrepayment)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReceivedPrepayment)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReceivedPrepayment)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StatusPayment)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StatusPayment)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TimeCreated)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TimeCreated)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TimeChanged)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TimeChanged)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
