@@ -116,6 +116,9 @@
                                                 }
                                                 <a class="aa-secondary-btn" href="@Url.Action("OrderTableDetail", "OrderTable", new { IdTable = item.Id, Date = Model.Search.Date, Time = Model.Search.Time, NumberPersons = Model.Search.NumberPersons } )">Заказать</a>
 
+                                                    @*<a class="aa-secondary-btn"> @Html.ActionLink("Заказать", "OrderTable", "OrderTable", new { IdTable = item.Id, Date = Model.Search.Date, Time = Model.Search.Time, NumberPersons = Model.Search.NumberPersons }, new { @class = "viewDialog", data_dialog_title = "Заказать столик" })</a>*@
+
+
                                             </div>
                                         </div>
                                     </article>
@@ -228,3 +231,4 @@
         </div>
     </div>
 </section>
+

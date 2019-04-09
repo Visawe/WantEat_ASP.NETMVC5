@@ -1,10 +1,14 @@
 ﻿@model Eat.Models.ViewModels.OrderTableDetailModelView
 
 @{
-                /**/
+    /**/
 
-                ViewBag.Title = "OrderTableDetail";
-                Layout = "~/Views/Shared/_Layout.cshtml";
+    /**/
+
+    /**/
+
+    ViewBag.Title = "OrderTableDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <!-- Start Proerty header  -->
@@ -13,67 +17,211 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="aa-property-header-inner">
-                    <h2>@ViewBag.Title</h2>
+                    <h2>Order table</h2>
                     <ol class="breadcrumb">
                         <li><a href="@Url.Action("Index", "Home")">HOME</a></li>
-                        <li class="active">Found tables</li>
+                        <li class="active">Order table</li>
                     </ol>
                 </div>
             </div>
         </div>
     </div>
-
-
 </section>
+<!-- End Proerty header  -->
+<!-- Start Properties  -->
+<section id="aa-properties">
+    <div class="container">
+        <section id="aa-properties">
+            <div class="container">
+                <div class="row">
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
+                    <div class="col-md-6 aa-properties-item-img col-sm-12">
+                        <div class="aa-properties-item-img">
+                            <img alt="img" src="@Url.Content(Model.Table.PathTableFoto)" width="370" height="220">
+                            <h4>@Model.Restaurant.Name</h4>
+                            <div class="aa-properties-about"><i class="fa fa-map-marker"></i> @Model.Restaurant.Address.ToStringShort()</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="aa-properties-item-content">
+                            <div class="aa-properties-info">
 
-    <div class="form-horizontal">
-        <h4>OrderTableDetailModelView</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.IdTable, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.IdTable, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.IdTable, "", new { @class = "text-danger" })
+                                <span class="fa fa-star checked">
+                                    Lorem
+                                </span>
+
+                                <span class="fa fa-rectangle-wide">
+                                    @Model.Table.MinNumberPeople Минимально людей
+                                </span>
+                                <span class="fa fa-rectangle-wide">
+                                    @Model.Table.MaxNumberPeople Максимально людей
+                                </span>
+
+                            </div>
+                            <div class="aa-properties-about">
+                                <h3>@Model.Table.Name</h3>
+                                <p>
+                                    @if (Model.Table.Description != null)
+                                    {
+                                        if (Model.Table.Description.Length > 100)
+                                        {
+                                            <span>@Model.Table.Description.Substring(0, 100)</span> <span>...</span>
+                                        }
+                                        else
+                                        {
+                                            <span>@Model.Table.Description</span>
+                                        }
+                                    }
+                                </p>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim molestiae vero ducimus quibusdam odit vitae.</p>
+                            </div>
+                            <div class="aa-properties-detial">
+                                @if (Model.Table.Prepayment != 0)
+                                {
+                                    <span class="aa-price">@Model.Table.Prepayment грн. предоплата</span>
+                                }
+                                else
+                                {
+                                    <span class="aa-price">без предоплаты</span>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
+        </section>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
-            </div>
-        </div>
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Time, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Time, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Time, "", new { @class = "text-danger" })
+            <div class="form-horizontal col-md-12">
+                <h4>Закажите столик</h4>
+                <hr />
+                <input type="hidden" value="@Model.IdTable" name="TableId" />
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Выберите дату:</label>
+                        <div class="form-group">
+                            <div class="col-md-10">
+                                @Html.TextBoxFor(x => x.Date.Value.Date, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date", @id = "MyDateOrder", @name= "Date" })
+                                @*@Html.ValidationMessageFor(model => model.Date)*@
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label>Выберите количество гостей:</label>
+                        <div class="form-group">
+                            <div class="col-md-10">
+                                <input class="form-control" type="number" name="NumberPersons" min="1" value="@Model.NumberPersons" max="@Model.Table.MaxNumberPeople" id="example-number-input">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" value="@Model.Time" name="Time" id="TimeOrder" />
+                <div>
+                    <label>Выберите время:</label>
+                    <ul id="TimeSpan">
+                        @foreach (var item in Model.MyTimeSpans)
+                        {
+                            if (item == Model.Time)
+                            {
+                                <li class="btn btn-primary active">@item</li>
+                            }
+                            else
+                            {
+                                <li class="btn btn-default">@item</li>
+                            }
+                        }
+                    </ul>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label>Сколько часов будет занят стол?</label>
+                        <input class="form-control" step="1800" type="time" name="TimeBooking" value="" id="example-time-input" @*max="@Model.TimeTo"*@>
+                    </div>
+                    <div class="col-md-2">
+                        <p>или</p>
+                    </div>
+                    <div class="col-md-4">
+                        <label>Время до которого будет занят стол?</label>
+                        <input class="form-control" type="datetime-local" name="DateTimeBooking" value="" id="example-date-input" @*max="@Model.DateTimeTo"*@>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <label for="comment">Комментарий к заказу:</label>
+                        <textarea class="form-control" rows="5" name="Description" id="comment"></textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <label for="Prepayment">Предоплата:</label>
+                        @if (Model.Table.Prepayment != 0)
+                        {
+                            <input class="form-control" name="Prepayment" type="text" id="Prepayment" value="@Model.Table.Prepayment" disabled>
+                        }
+                        else
+                        {
+                            <input class="form-control" name="Prepayment" type="text" id="Prepayment" value="0" disabled>
+                        }
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Заказать" class="btn btn-default" />
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
+        }
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.NumberPersons, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.NumberPersons, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.NumberPersons, "", new { @class = "text-danger" })
-            </div>
-        </div>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
+        <div>
+            @Html.ActionLink("Back to List", "Index")
         </div>
     </div>
-}
+</section>
+<script>
+    $("#TimeSpan li").on("click", function () {
+        $('#TimeSpan li.active').removeClass('active btn-primary');
+        $('#TimeSpan li.active').addClass('active btn-default');
+        $(this).addClass("active btn-primary");
+        var time = $(this).val();
+        $('#TimeOrder').val(time);
+         $.ajax({
+            type: 'GET',
+            url: "/OrderTable/GetFreeTimeSpan?IdTable=" +@Model.IdTable+ "&Date=" + date,
+            success: function (data) {
+                alert("Done");
+                // заменяем содержимое присланным частичным представлением
+                $('#TimeSpan').replaceWith(data);
+                alert("DoneResult");
+            },
+            error: function () {
+                alert("An error has occured!!!");
+            }
+        });
+    });
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+    $("#MyDateOrder").change(function () {
+        alert($(this).val());
+        var date = $(this).val();
+        $.ajax({
+            type: 'GET',
+            url: "/OrderTable/GetFreeTimeSpan?IdTable=" +@Model.IdTable+ "&Date=" + date,
+            success: function (data) {
+                alert("Done");
+                // заменяем содержимое присланным частичным представлением
+                $('#TimeSpan').replaceWith(data);
+                alert("DoneResult");
+            },
+            error: function () {
+                alert("An error has occured!!!");
+            }
+        });
+    });
+
+</script>

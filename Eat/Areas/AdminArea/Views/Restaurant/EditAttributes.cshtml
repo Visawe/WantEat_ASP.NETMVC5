@@ -10,7 +10,7 @@
 <h2>EditAttributes</h2>
 
 <p>
-    @Html.ActionLink("Create New Attribute", "AddAttribute", Model , new { @class = "viewDialog", data_dialog_title = "Создание атрибута" })
+    @Html.ActionLink("Create New Attribute", "AddAttribute", new { id = Model.Id} , new { @class = "viewDialog", data_dialog_title = "Создание атрибута" })
 </p>
 <table class="table">
     <tr>

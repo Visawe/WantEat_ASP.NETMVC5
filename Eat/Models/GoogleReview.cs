@@ -42,9 +42,7 @@ namespace Eat.Models
             // Return true if the fields match:
             return (GoogleRestaurantDetailsId == p.GoogleRestaurantDetailsId) 
                 && (Author_name == p.Author_name)
-                    && (Language == p.Language)
                       && (Rating == p.Rating)
-                        && (Relative_time_description == p.Relative_time_description)
                           && (Text == p.Text)
                             && (Time == p.Time);
         }

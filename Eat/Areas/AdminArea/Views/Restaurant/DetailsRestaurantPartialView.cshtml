@@ -45,7 +45,7 @@
                                 </ul>
                                 @if (this.User.IsInRole("Admin"))
                                 {
-                                    <input type="button" class="btn btn-info" value="Edit Features" onclick="location.href='@Url.Action("EditAttributes", "Restaurant", Model)'" />
+                                    <input type="button" class="btn btn-info" value="Edit Features" onclick="location.href='@Url.Action("EditAttributes", "Restaurant", new {Area = "AdminArea", id = Model.Id })'" />
                                 }
                                 <h4>Property Video</h4>
                                 @if (Model.PathYoutube != null)
@@ -92,9 +92,9 @@
                                         @if (Model.GoogleRestaurantDetails.GoogleReviews.Count > 0)
                                         {
                                             var number = 0;
-                                            if (Model.GoogleRestaurantDetails.GoogleReviews.Count >= 6)
+                                            if (Model.GoogleRestaurantDetails.GoogleReviews.Count >= 3)
                                             {
-                                                number = 6;
+                                                number = 3;
                                             }
                                             else
                                             {
@@ -134,6 +134,51 @@
                                         else
                                         {
                                             <div> Пока нет отзывов</div>
+                                        }
+                                    </div>
+                                    <div class="row">
+
+                                        @if (Model.GoogleRestaurantDetails.GoogleReviews.Count > 3)
+                                        {
+                                            var number = 0;
+                                            if (Model.GoogleRestaurantDetails.GoogleReviews.Count >= 6)
+                                            {
+                                                number = 3;
+                                            }
+                                            else
+                                            {
+                                                number = Model.GoogleRestaurantDetails.GoogleReviews.Count - 3;
+                                            }
+                                            foreach (var item in Model.GoogleRestaurantDetails.GoogleReviews.Skip(3).Take(number))
+                                            {
+                                                <div class="col-md-4">
+                                                    <article class="aa-properties-item">
+                                                        <a class="aa-properties-item-img" href="@item.Author_url">
+                                                            <img alt="img" src="@item.Profile_photo_url" width="50">
+                                                        </a>
+                                                        <div class="aa-properties-item-content">
+                                                            <div class="aa-properties-info">
+                                                                @for (int i = 0; i < item.Rating; i++)
+                                                                {
+                                                                    <span class="fa fa-star checked"></span>
+                                                                }
+                                                                @for (int i = 0; i < 5 - item.Rating; i++)
+                                                                {
+                                                                    <span class="fa fa-star"></span>
+                                                                }
+                                                            </div>
+                                                            <div class="aa-properties-about">
+                                                                <h3><a href="@item.Profile_photo_url">@item.Author_name</a></h3>
+                                                                <p>@item.Text</p>
+                                                            </div>
+                                                            <div class="aa-properties-detial">
+
+                                                                <a class="aa-secondary-btn" href="@item.Profile_photo_url"> @item.Relative_time_description</a>
+                                                            </div>
+                                                        </div>
+                                                    </article>
+                                                </div>
+                                            }
                                         }
                                     </div>
                                 </div>
@@ -271,7 +316,7 @@
                                 </div>
                             }
                         }
-                        <input type="button" class="btn btn-success" value="More Tables" onclick="location.href='@Url.Action("Action", "Controller")'" />
+                        <input type="button" class="btn btn-success" value="More Tables" onclick="location.href='@Url.Action("ShowAllTable", "Restaurant", new { Area = "", id = Model.Id })'" />
                     </div>
                     <div class="aa-properties-single-sidebar">
                         <h3>Dishes</h3>

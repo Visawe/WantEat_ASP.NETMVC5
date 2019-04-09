@@ -167,8 +167,9 @@
 
                             <div class="aa-single-advance-search ">
                                 <label for="example-date-input" class="col-md-2 col-form-label">Date</label>
-                                <input class="form-control" type="date" name="Date" value="" id="example-date-input">
-                            </div>
+                                <input class="form-control" type="date" name="Date" />
+                                @*@Html.TextBoxFor(x => x.ModelSearch.Date, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date", @id = "MyDateOrder", @name = "Date" })
+                            </div>*@
 
 
                             <div class="aa-single-advance-search ">

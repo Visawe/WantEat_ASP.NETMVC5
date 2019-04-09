@@ -7,30 +7,32 @@
 }
 
 <!-- Start slider  -->
-<section id="aa-slider">
-    <div class="aa-slider-area">
-        <!-- Top slider -->
-        <div class="aa-top-slider">
-            @foreach (var item in Model.TopRestaurants)
-            {
-                <!-- Top slider single slide -->
-                <div class="aa-top-slider-single">
-                    <img src="@Url.Content(item.PathMainFoto)" alt="img">
-                    <!-- Top slider content -->
-                    <div class="aa-top-slider-content">
-                        <span class="aa-top-slider-catg">@item.Name</span>
-                        <h2 class="aa-top-slider-title">@item.Slogan</h2>
-                        <p class="aa-top-slider-location"><i class="fa fa-map-marker"></i>@item.Address.ToStringShort()</p>
-                        <span class="aa-top-slider-off">@item.Tables.Count столов</span>
-                        <p class="aa-top-slider-price">@item.GoogleRestaurantDetails.Rating рейтинг</p>
-                        <a href="@Url.Action("Details","Restaurant",new { id = item.Id } )" class="aa-top-slider-btn">Read More <span class="fa fa-angle-double-right"></span></a>
+<section id="aa-slider">  
+    <div class="" >
+        <div class="aa-slider-area">
+            <!-- Top slider -->
+            <div class="aa-top-slider">
+                @foreach (var item in Model.TopRestaurants)
+                {
+                    <!-- Top slider single slide -->
+                    <div class="aa-top-slider-single">
+                        <img src="@Url.Content(item.PathMainFoto)" alt="img">
+                        <!-- Top slider content -->
+                        <div class="aa-top-slider-content">
+                            <span class="aa-top-slider-catg">@item.Name</span>
+                            <h2 class="aa-top-slider-title">@item.Slogan</h2>
+                            <p class="aa-top-slider-location"><i class="fa fa-map-marker"></i>@item.Address.ToStringShort()</p>
+                            <span class="aa-top-slider-off">@item.Tables.Count столов</span>
+                            <p class="aa-top-slider-price">@item.GoogleRestaurantDetails.Rating рейтинг</p>
+                            <a href="@Url.Action("Details","Restaurant",new { id = item.Id } )" class="aa-top-slider-btn">Read More <span class="fa fa-angle-double-right"></span></a>
+                        </div>
+                        <!-- / Top slider content -->
                     </div>
-                    <!-- / Top slider content -->
-                </div>
-                <!-- / Top slider single slide -->
-            }
+                    <!-- / Top slider single slide -->
+                }
+            </div>
         </div>
-    </div>
+        </div>
 </section>
 <!-- End slider  -->
 <!-- Advance Search -->
@@ -188,14 +190,15 @@
                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum sit ea nobis quae vero voluptatibus.</p>
             </div>
             <div class="aa-latest-properties-content">
+
                 <div class="row">
                     <!-- недавние бронирования -->
-                    @foreach (var item in Model.LastOrders)
+                    @foreach (var item in Model.LastOrders.Take(3))
                     {
                         <div class="col-md-4">
                             <article class="aa-properties-item">
                                 <a href="@Url.Action("Details","Restaurant",new { id = item.Restaurant.Id } )" class="aa-properties-item-img">
-                                    <img src="@Url.Content(item.Restaurant.PathMainFoto)" alt="img">
+                                    <img src="@Url.Content(item.Restaurant.PathMainFoto)" alt="img" width="370" height="240">
                                 </a>
                                 <div class="aa-tag for-sale">
                                     For Sale
@@ -212,7 +215,49 @@
                                         }
                                         <span>@item.Restaurant.Tables.Count Видов столов</span>
                                         <span>@item.Restaurant.Dishes.Count Блюд</span>
-                                        
+
+                                    </div>
+                                    <div class="aa-properties-about">
+                                        <h3><a href="@Url.Action("Details","Restaurant",new { id = item.Restaurant.Id } )">@item.Restaurant.Name</a></h3>
+                                        <p>Столик: @item.OrderTables.FirstOrDefault().Table.Name</p>
+                                    </div>
+                                    <div class="aa-properties-detial">
+                                        <span class="aa-price">
+                                            Чек:
+                                            @item.Restaurant.AverageCheckRestaurant @item.Restaurant.AverageCheckRestaurantCurrency.Type
+                                        </span>
+                                        <a href="@Url.Action("Details","Restaurant",new { id = item.Restaurant.Id } )" class="aa-secondary-btn">View Details</a>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                    }
+                </div>
+                <div class="row">
+                    <!-- недавние бронирования -->
+                    @foreach (var item in Model.LastOrders.Skip(3))
+                    {
+                        <div class="col-md-4">
+                            <article class="aa-properties-item">
+                                <a href="@Url.Action("Details","Restaurant",new { id = item.Restaurant.Id } )" class="aa-properties-item-img">
+                                    <img src="@Url.Content(item.Restaurant.PathMainFoto)" alt="img" width="370" height="240">
+                                </a>
+                                <div class="aa-tag for-sale">
+                                    For Sale
+                                </div>
+                                <div class="aa-properties-item-content">
+                                    <div class="aa-properties-info">
+                                        @if (item.Restaurant.GoogleRestaurantDetails != null)
+                                        {
+                                            <span class="fa fa-star checked">
+
+                                                @item.Restaurant.GoogleRestaurantDetails.Rating
+
+                                            </span>
+                                        }
+                                        <span>@item.Restaurant.Tables.Count Видов столов</span>
+                                        <span>@item.Restaurant.Dishes.Count Блюд</span>
+
                                     </div>
                                     <div class="aa-properties-about">
                                         <h3><a href="@Url.Action("Details","Restaurant",new { id = item.Restaurant.Id } )">@item.Restaurant.Name</a></h3>
@@ -427,7 +472,7 @@
                             <li>
                                 <div class="aa-single-agents">
                                     <div class="aa-agents-img">
-                                        <img src="img/agents/agent-1.png" alt="agent member image">
+                                        <img src="" alt="agent member image">
                                     </div>
                                     <div class="aa-agetns-info">
                                         <h4><a href="#">Philip Smith</a></h4>
@@ -444,7 +489,7 @@
                             <li>
                                 <div class="aa-single-agents">
                                     <div class="aa-agents-img">
-                                        <img src="img/agents/agent-5.png" alt="agent member image">
+                                        <img src="" alt="agent member image">
                                     </div>
                                     <div class="aa-agetns-info">
                                         <h4><a href="#">Adam Barney</a></h4>
@@ -461,7 +506,7 @@
                             <li>
                                 <div class="aa-single-agents">
                                     <div class="aa-agents-img">
-                                        <img src="img/agents/agent-3.png" alt="agent member image">
+                                        <img src="" alt="agent member image">
                                     </div>
                                     <div class="aa-agetns-info">
                                         <h4><a href="#">Paul Walker</a></h4>
@@ -478,7 +523,7 @@
                             <li>
                                 <div class="aa-single-agents">
                                     <div class="aa-agents-img">
-                                        <img src="img/agents/agent-4.png" alt="agent member image">
+                                        <img src="" alt="agent member image">
                                     </div>
                                     <div class="aa-agetns-info">
                                         <h4><a href="#">John Smith</a></h4>
@@ -495,7 +540,7 @@
                             <li>
                                 <div class="aa-single-agents">
                                     <div class="aa-agents-img">
-                                        <img src="img/agents/agent-1.png" alt="agent member image">
+                                        <img src="" alt="agent member image">
                                     </div>
                                     <div class="aa-agetns-info">
                                         <h4><a href="#">Philip Smith</a></h4>
@@ -512,7 +557,7 @@
                             <li>
                                 <div class="aa-single-agents">
                                     <div class="aa-agents-img">
-                                        <img src="img/agents/agent-5.png" alt="agent member image">
+                                        <img src="" alt="agent member image">
                                     </div>
                                     <div class="aa-agetns-info">
                                         <h4><a href="#">Adam Barney</a></h4>
@@ -529,7 +574,7 @@
                             <li>
                                 <div class="aa-single-agents">
                                     <div class="aa-agents-img">
-                                        <img src="img/agents/agent-3.png" alt="agent member image">
+                                        <img src="" alt="agent member image">
                                     </div>
                                     <div class="aa-agetns-info">
                                         <h4><a href="#">Paul Walker</a></h4>
@@ -546,7 +591,7 @@
                             <li>
                                 <div class="aa-single-agents">
                                     <div class="aa-agents-img">
-                                        <img src="img/agents/agent-4.png" alt="agent member image">
+                                        <img src="" alt="agent member image">
                                     </div>
                                     <div class="aa-agetns-info">
                                         <h4><a href="#">John Smith</a></h4>
@@ -577,52 +622,52 @@
                     <ul class="aa-client-brand-slider">
                         <li>
                             <div class="aa-client-single-brand">
-                                <img src="img/client-brand-1.png" alt="brand image">
+                                <img src="" alt="brand image">
                             </div>
                         </li>
                         <li>
                             <div class="aa-client-single-brand">
-                                <img src="img/client-brand-2.png" alt="brand image">
+                                <img src="" alt="brand image">
                             </div>
                         </li>
                         <li>
                             <div class="aa-client-single-brand">
-                                <img src="img/client-brand-3.png" alt="brand image">
+                                <img src="" alt="brand image">
                             </div>
                         </li>
                         <li>
                             <div class="aa-client-single-brand">
-                                <img src="img/client-brand-5.png" alt="brand image">
+                                <img src="" alt="brand image">
                             </div>
                         </li>
                         <li>
                             <div class="aa-client-single-brand">
-                                <img src="img/client-brand-4.png" alt="brand image">
+                                <img src="" alt="brand image">
                             </div>
                         </li>
                         <li>
                             <div class="aa-client-single-brand">
-                                <img src="img/client-brand-1.png" alt="brand image">
+                                <img src="" alt="brand image">
                             </div>
                         </li>
                         <li>
                             <div class="aa-client-single-brand">
-                                <img src="img/client-brand-2.png" alt="brand image">
+                                <img src="" alt="brand image">
                             </div>
                         </li>
                         <li>
                             <div class="aa-client-single-brand">
-                                <img src="img/client-brand-3.png" alt="brand image">
+                                <img src="" alt="brand image">
                             </div>
                         </li>
                         <li>
                             <div class="aa-client-single-brand">
-                                <img src="img/client-brand-5.png" alt="brand image">
+                                <img src="" alt="brand image">
                             </div>
                         </li>
                         <li>
                             <div class="aa-client-single-brand">
-                                <img src="img/client-brand-4.png" alt="brand image">
+                                <img src="" alt="brand image">
                             </div>
                         </li>
                     </ul>
@@ -649,7 +694,7 @@
                             <div class="col-md-4">
                                 <article class="aa-blog-single">
                                     <figure class="aa-blog-img">
-                                        <a href="#"><img src="img/blog-img-1.jpg" alt="img"></a>
+                                        <a href="#"><img src="" alt="img"></a>
                                         <span class="aa-date-tag">15 April, 16</span>
                                     </figure>
                                     <div class="aa-blog-single-content">
@@ -667,7 +712,7 @@
                             <div class="col-md-4">
                                 <article class="aa-blog-single">
                                     <figure class="aa-blog-img">
-                                        <a href="#"><img src="img/blog-img-2.jpg" alt="img"></a>
+                                        <a href="#"><img src="" alt="img"></a>
                                         <span class="aa-date-tag">15 April, 16</span>
                                     </figure>
                                     <div class="aa-blog-single-content">
@@ -684,7 +729,7 @@
                             <div class="col-md-4">
                                 <article class="aa-blog-single">
                                     <figure class="aa-blog-img">
-                                        <a href="#"><img src="img/blog-img-3.jpg" alt="img"></a>
+                                        <a href="#"><img src="" alt="img"></a>
                                         <span class="aa-date-tag">15 April, 16</span>
                                     </figure>
                                     <div class="aa-blog-single-content">

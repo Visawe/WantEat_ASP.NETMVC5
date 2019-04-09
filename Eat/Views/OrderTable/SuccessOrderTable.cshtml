@@ -1,0 +1,131 @@
+﻿@model Eat.Models.OrderTable
+
+@{
+    ViewBag.Title = "SuccessOrderTable";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!-- Start Proerty header  -->
+<section id="aa-property-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="aa-property-header-inner">
+                    <h2>Order table</h2>
+                    <ol class="breadcrumb">
+                        <li><a href="@Url.Action("Index", "Home")">HOME</a></li>
+                        <li class="active">Order table Detail</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div>
+    <h4>OrderTable @ViewBag.Message!</h4>
+    <hr />
+    <h5>Ваш заказ:</h5>
+    <dl class="dl-horizontal">
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Table.Restaurant.Name)
+        </dt>
+
+        <dd>
+            <a href="@Url.Action("Details","Restaurant",new { id = Model.Table.Restaurant.Id } )">@Html.DisplayFor(model => model.Table.Restaurant.Name)</a>
+        </dd>
+
+        <dt>
+
+        </dt>
+
+        <dd>
+            <img src="@Url.Content(Model.Table.PathTableFoto)" width="250" height="250" />
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Table.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Table.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NumberPeople)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NumberPeople)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OrderTimeFrom)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OrderTimeFrom)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OrderTimeTo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OrderTimeTo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NeedPrepayment)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NeedPrepayment)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PaymentType.Type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PaymentType.Type)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StatusPayment)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StatusPayment)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TimeCreated)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TimeCreated)
+        </dd>
+
+    </dl>
+</div>
+<input type="button" class="btn btn-success" value="Заказать блюда к столу" onclick="location.href='@Url.Action("OrderDishToTable", "OrderDish", new { Area = "", idOrder = Model.Order.Id, idRest = Model.Order.Restaurant.Id, idOrderTable = Model.Id})'" />
+<input type="button" class="btn btn-success" value="OK" onclick="location.href='@Url.Action("Index", "Home")'" />
+
+

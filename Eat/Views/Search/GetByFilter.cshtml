@@ -1,0 +1,60 @@
+﻿@model IEnumerable<Eat.Models.Restaurant>
+<!-- Start properties content body -->
+<div class="aa-properties-content-body" id="ListRestaurants">
+    <ul class="aa-properties-nav">
+        @foreach (var item in Model)
+        {
+            <li>
+                <article class="aa-properties-item">
+
+                    <a class="aa-properties-item-img" href="@Url.Action("ShowGalleryRestaurant","Restaurant",new { id = item.Id } )">
+                        <img alt="img" src="@Url.Content(item.PathMainFoto)" width="370" height="220">
+                        <div class="aa-properties-about"><i class="fa fa-map-marker"></i> @Html.DisplayFor(modelItem => item.Address.City) @item.Address.Street @item.Address.House</div>
+                    </a>
+
+                    <div class="aa-properties-item-content">
+                        <div class="aa-properties-info">
+                            @if (item.GoogleRestaurantDetails != null)
+                            {
+                                <span class="fa fa-star checked">
+
+                                    @item.GoogleRestaurantDetails.Rating
+
+                                </span>
+                            }
+
+                            <span class="fa fa-rectangle-wide">
+                                @item.Tables.Count Видов столов
+                            </span>
+                            <span class="fa fa-cutlery">@item.Dishes.Count Блюд</span>
+                        </div>
+                        <div class="aa-properties-about">
+                            <h3><a href="@Url.Action("Details","Restaurant",new { id = item.Id } )">@Html.DisplayFor(modelItem => item.Name)</a></h3>
+                            <p>
+                                @if (item.Description.Length > 100)
+                                {
+                                    <span>@item.Description.Substring(0, 100)</span> <span>...</span>
+                                }
+                                else
+                                {
+                                    <span>@item.Description</span>
+                                }
+                            </p>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim molestiae vero ducimus quibusdam odit vitae.</p>
+                        </div>
+                        <div class="aa-properties-detial">
+                            <span class="aa-price">
+                                Чек:
+                                @Html.DisplayFor(modelItem => item.AverageCheckRestaurant) @Html.DisplayFor(modelItem => item.AverageCheckRestaurantCurrency.Type)
+                            </span>
+                            @*@using Eat.Models.ViewModels;*@
+                            <a class="aa-secondary-btn" href="#">Search Details</a>
+
+                        </div>
+                    </div>
+                </article>
+            </li>
+        }
+    </ul>
+</div>
+<!-- Start properties content bottom -->

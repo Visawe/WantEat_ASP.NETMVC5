@@ -18,6 +18,10 @@ namespace Eat.Models
 
         public double Price { get; set; }
 
+        public int? PriceCurrencyId { get; set; }
+
+        public virtual Currency PriceCurrency { get; set; }
+
         public virtual Dish Dish { get; set; }
 
         public virtual OrdersDish OrdersDish { get; set; }

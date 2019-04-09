@@ -39,7 +39,7 @@ namespace Eat
 
             bundles.Add(new ScriptBundle("~/bundles/myUserScript").Include(
                       "~/Scripts/myUserScript/custom.js",
-                      "~/Scripts/myUserScript/nouislider.js",
+                      //"~/Scripts/myUserScript/nouislider.js",
                       "~/Scripts/myUserScript/slick.js",
                       "~/Scripts/myUserScript/ownScript.js",
                       "~/Scripts/myUserScript/jquery.fancybox.pack.js",
@@ -57,7 +57,7 @@ namespace Eat
                       "~/Content/UserStyle/style.css",
                       "~/Content/UserStyle/green-theme.css",
                       "~/Content/UserStyle/slick.css",
-                      "~/Content/UserStyle/nouislider.css",
+                      //"~/Content/UserStyle/nouislider.css",
                       "~/Content/Site.css",
                       "~/Content/themes/base/all.css",
                       "~/Content/UserStyle/jquery.fancybox.css"

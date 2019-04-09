@@ -21,7 +21,7 @@ namespace Eat
         {
             // настройка логина, пароля отправителя
             var from = "testsamyraika@gmail.com";
-            var pass = "*";
+            var pass = "121233email";
 
             // адрес и порт smtp-сервера, с которого мы и будем отправлять письмо
             SmtpClient client = new SmtpClient("smtp.gmail.com", 587);

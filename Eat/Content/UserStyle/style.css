@@ -210,11 +210,12 @@ img {
   width: 100%;
   z-index: 99;
 }
-#aa-menu-area .main-navbar {
-  background-color: transparent;
-  border: medium none;
-  border-radius: 0;
-}
+    #aa-menu-area .main-navbar {
+        background-color: transparent;
+        border: medium none;
+        border-radius: 0;
+        background-color: rgba(95, 100, 103, 0.3);
+    }
 #aa-menu-area .main-navbar .navbar-header .navbar-brand {
   padding: 0;
 }
@@ -1040,16 +1041,16 @@ img {
 ====================*/
 
 #aa-client-testimonial {
-  background-attachment: fixed;
-  background-image: url("../img/testimonial-bg.jpg");
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  display: inline;
-  float: left;
-  padding: 100px 0;
-  width: 100%;
-  position: relative;
+    background-attachment: fixed;
+    background-image: url("../Images/Site/Honey_Plate_543114_1920x1200.jpg");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: inline;
+    float: left;
+    padding: 100px 0;
+    width: 100%;
+    position: relative;
 }
 #aa-client-testimonial:before {
   background-color: rgba(0, 0, 0, 0.8);

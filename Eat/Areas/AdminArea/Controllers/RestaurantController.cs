@@ -130,23 +130,40 @@ namespace Eat.Areas.AdminArea.Controllers
         }
 
 
-        public ActionResult EditAttributes(Restaurant restaurant)
+        public ActionResult EditAttributes(int id)
         {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Restaurant restaurant = db.Restaurants.Find(id);
+            if (restaurant == null)
+            {
+                return HttpNotFound();
+            }
             restaurant.Attributes.ToList();
             return View(restaurant);
         }
 
-        public ActionResult AddAttribute(Restaurant restaurant)
+        public ActionResult AddAttribute(int id)
         {
-            return PartialView("AddAttribute",restaurant );
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Restaurant restaurant = db.Restaurants.Find(id);
+            if (restaurant == null)
+            {
+                return HttpNotFound();
+            }
+            return PartialView("AddAttribute", restaurant );
         }
 
         [HttpPost]
         public ActionResult AddAttribute(Models.Attribute attribute)
         {
 
-            db.Attributes.Add(attribute);
-            db.SaveChanges();
+          
             return RedirectToAction("EditAttributes");
         }
 

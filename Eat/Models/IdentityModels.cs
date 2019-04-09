@@ -158,6 +158,51 @@ namespace Eat.Models
                 .Property(e => e.TimeTo)
                 .HasPrecision(0);
 
+            modelBuilder.Entity<Order>()
+            .Property(f => f.TimeChanged)
+            .HasColumnType("datetime2")
+            .HasPrecision(0);
+
+            modelBuilder.Entity<Order>()
+            .Property(f => f.TimeCreated)
+            .HasColumnType("datetime2")
+            .HasPrecision(0);
+
+            modelBuilder.Entity<OrderTable>()
+            .Property(f => f.OrderTimeFrom)
+            .HasColumnType("datetime2")
+            .HasPrecision(0);
+
+            modelBuilder.Entity<OrderTable>()
+            .Property(f => f.OrderTimeTo)
+            .HasColumnType("datetime2")
+            .HasPrecision(0);
+
+            modelBuilder.Entity<OrderTable>()
+            .Property(f => f.TimeChanged)
+            .HasColumnType("datetime2")
+            .HasPrecision(0);
+
+            modelBuilder.Entity<OrderTable>()
+            .Property(f => f.TimeCreated)
+            .HasColumnType("datetime2")
+            .HasPrecision(0);
+
+            modelBuilder.Entity<OrdersDish>()
+            .Property(f => f.TimeChanged)
+            .HasColumnType("datetime2")
+            .HasPrecision(0);
+
+            modelBuilder.Entity<OrdersDish>()
+            .Property(f => f.TimeCreated)
+            .HasColumnType("datetime2")
+            .HasPrecision(0);
+
+            modelBuilder.Entity<OrdersDish>()
+            .Property(f => f.OrderTime)
+            .HasColumnType("datetime2")
+            .HasPrecision(0);
+
             base.OnModelCreating(modelBuilder);
         }
         public ApplicationDbContext()

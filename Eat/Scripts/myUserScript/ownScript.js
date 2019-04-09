@@ -21,3 +21,4 @@
         jQuery(".aa-properties-nav").removeClass("aa-list-view");
     });
 });
+

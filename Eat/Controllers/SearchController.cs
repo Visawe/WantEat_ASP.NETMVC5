@@ -22,7 +22,29 @@ namespace Eat.Controllers
 
         [HttpPost]
         public ActionResult Search(ModelSearch search)
-        {                        
+        {    
+            if(search.Date!= null && search.Date.Value.Date < DateTime.Now.Date)
+            {
+                ViewBag.Message = "Необходимо ввести корректные данные для поиска";
+                return RedirectToAction("Index", "Home");
+            }
+            if(search.Date != null && search.Time != null)
+            {
+                DateTime dateTimeSearch = DateTime.Now;
+                dateTimeSearch = (DateTime)(search.Date + search.Time);
+                if(dateTimeSearch.AddMinutes(5) <= DateTime.Now)
+                {
+                    ViewBag.Message = "Необходимо ввести корректные данные для поиска";
+                    return RedirectToAction("Index", "Home");
+                }
+            }
+            if(search.Time != null && search.Date == null)
+            {
+                ViewBag.Message = "Необходимо ввести корректные данные для поиска";
+                return RedirectToAction("Index", "Home");
+            }
+           
+        
             //Заполнен город
             if (search.Place != null && search.TextSearch == null)
             {
@@ -56,7 +78,7 @@ namespace Eat.Controllers
             //ничего не заполнено
             else
             {
-                ViewBag.Message = "Необходимо ввести данные для поиска";
+                ViewBag.Message = "Необходимо ввести корректные данные для поиска";
             }
             return RedirectToAction("Index", "Home");
         }
@@ -129,6 +151,10 @@ namespace Eat.Controllers
         {
             IList<Restaurant> restaurants = null;
             RestaurantResultSearchViewModel model = new RestaurantResultSearchViewModel { Restaurants = restaurants, ModelSearch = search };
+            model.NationalCuisines = db.NationalCuisines.ToList();
+            model.TargetAudiences = db.TargetAudiences.ToList();
+            model.TypeFoods = db.TypeFoods.ToList();
+            model.Attributes = db.Attributes.ToList();
             //Заполнен город
             if (search.Place != null && search.TextSearch == null)
             {
@@ -140,7 +166,7 @@ namespace Eat.Controllers
                     {
                         //возвращаем рестораны только по городу (все)
                         model.Restaurants = (from t in db.Restaurants // определяем каждый объект из teams как t
-                                       where (t.Address.City == search.Place) //фильтрация по критерию
+                                       where (t.Address.City.ToUpper() == search.Place.ToUpper()) //фильтрация по критерию
                                        orderby t.AverageCheckRestaurant  // упорядочиваем по возрастанию
                                        select t).ToList(); // выбираем объект
                         model.TypeSearch = "City";
@@ -149,7 +175,7 @@ namespace Eat.Controllers
                     {
                         //возвращаем рестораны по городу и числу персон
                         model.Restaurants = (from t in db.Restaurants // определяем каждый объект из teams как t
-                                       where (t.Address.City == search.Place && t.Tables.Any(m => m.MaxNumberPeople <= search.NumberPersons && search.NumberPersons >= m.MinNumberPeople)) //фильтрация по критерию
+                                       where (t.Address.City.ToUpper() == search.Place.ToUpper() && t.Tables.Any(m => m.MaxNumberPeople >= search.NumberPersons && search.NumberPersons >= m.MinNumberPeople)) //фильтрация по критерию
                                        orderby t.AverageCheckRestaurant  // упорядочиваем по возрастанию
                                        select t).ToList(); // выбираем объект
                         model.TypeSearch = "CityPerson";
@@ -168,7 +194,7 @@ namespace Eat.Controllers
                         model.Restaurants = (from r in db.Restaurants.ToList()
                                        join ws in db.WorkSchedules on r.Id equals ws.RestaurantId
                                        join t in db.Tables on r.Id equals t.RestaurantId
-                                       where (r.Address.City == search.Place
+                                       where (r.Address.City.ToUpper() == search.Place.ToUpper()
                                        && (ws.DayOfWeek == 8 || ws.DayOfWeek == dayWeekSearch)
                                        && (ws.TimeFrom <= search.Time && ws.TimeTo >= search.Time))
                                        select r).Distinct().Intersect((from r in db.Restaurants.ToList()
@@ -186,7 +212,7 @@ namespace Eat.Controllers
                                         model.Restaurants = (from r in db.Restaurants.ToList()
                                        join ws in db.WorkSchedules on r.Id equals ws.RestaurantId
                                        join t in db.Tables on r.Id equals t.RestaurantId
-                                       where (r.Address.City == search.Place
+                                       where (r.Address.City.ToUpper() == search.Place.ToUpper()
                                        && (ws.DayOfWeek == 8 || ws.DayOfWeek == dayWeekSearch)
                                        && (ws.TimeFrom <= search.Time && ws.TimeTo >= search.Time)
                                        && (t.MinNumberPeople <= search.NumberPersons && t.MaxNumberPeople >= search.NumberPersons))
@@ -219,7 +245,7 @@ namespace Eat.Controllers
                                                join r in db.Restaurants on ws.RestaurantId equals r.Id
                                                join t in db.Tables on r.Id equals t.RestaurantId
                                                where (ws.DayOfWeek == 8 || ws.DayOfWeek == dayWeekSearch)
-                                               && r.Address.City == search.Place
+                                               && r.Address.City.ToUpper() == search.Place.ToUpper()
                                                 && (t.MinNumberPeople <= search.NumberPersons && t.MaxNumberPeople >= search.NumberPersons)
                                                group ws by ws.RestaurantId into g
                                                let amount = g.Sum(s => s.WorkMinutes)
@@ -233,7 +259,7 @@ namespace Eat.Controllers
                                                       join t in db.Tables on ot.TableId equals t.Id
                                                       join r in db.Restaurants on t.RestaurantId equals r.Id
                                                       where ot.OrderTimeFrom.Date == DateTime.Parse(search.Date.Value.Date.ToString("dd/MM/yyyy"))
-                                                      && r.Address.City == search.Place
+                                                      && r.Address.City.ToUpper() == search.Place.ToUpper()
                                                        && (t.MinNumberPeople <= search.NumberPersons && t.MaxNumberPeople >= search.NumberPersons)
                                                       group ot by new
                                                       {
@@ -296,25 +322,7 @@ namespace Eat.Controllers
                         }
                         break;
 
-                    //case "Dish Name": 
-                    //    {
-                    //        IEnumerable<Dish> dishes = from t in db.Dishes // определяем каждый объект из teams как t
-                    //                                   where (t.Name.ToUpper() == search.TextSearch.ToUpper()
-                    //                                   || t.Name.ToUpper().Contains(search.TextSearch.ToUpper())) //фильтрация по критерию
-                    //                                   orderby t.Price  // упорядочиваем по возрастанию
-                    //                                   select t; // выбираем объект
-                    //        return RedirectToAction("ResultDishes", dishes);
-                    //    }
-
-                    //case "Ingredient":
-                    //    {
-                    //        IEnumerable<Dish> dishes = from t in db.Dishes // определяем каждый объект из teams как t
-                    //                                   where (t.IngredientTypes.Any(item => item.Type.ToUpper() == search.TextSearch.ToUpper()
-                    //                                   || item.Type.ToUpper().Contains(search.TextSearch.ToUpper()))) //фильтрация по критерию
-                    //                                   orderby t.Price  // упорядочиваем по возрастанию
-                    //                                   select t; // выбираем объект
-                    //        return RedirectToAction("ResultDishes", dishes);
-                    //    }
+                    
 
                     default:
                         break;
@@ -332,7 +340,7 @@ namespace Eat.Controllers
                             if (search.NumberPersons == null || search.NumberPersons == 0)
                             {
                                 model.Restaurants = (from t in db.Restaurants // определяем каждый объект из teams как t
-                                               where (t.Address.City == search.Place && t.Name == search.TextSearch
+                                               where (t.Address.City.ToUpper() == search.Place.ToUpper() && t.Name.ToUpper() == search.TextSearch.ToUpper()
                                                || t.Name.ToUpper().Contains(search.TextSearch.ToUpper())) //фильтрация по критерию
                                                orderby t.AverageCheckRestaurant  // упорядочиваем по возрастанию
                                                select t).ToList(); // выбираем объект
@@ -342,8 +350,8 @@ namespace Eat.Controllers
                             else
                             {
                                 model.Restaurants = (from t in db.Restaurants // определяем каждый объект из teams как t
-                                               where (t.Address.City == search.Place
-                                               && (t.Name == search.TextSearch
+                                               where (t.Address.City.ToUpper() == search.Place.ToUpper()
+                                               && (t.Name.ToUpper() == search.TextSearch.ToUpper()
                                                || t.Name.ToUpper().Contains(search.TextSearch.ToUpper())
                                                && t.Tables.Any(m => m.MaxNumberPeople <= search.NumberPersons
                                                && search.NumberPersons >= m.MinNumberPeople))) //фильтрация по критерию
@@ -353,29 +361,6 @@ namespace Eat.Controllers
 
                             }                            
                         }break;
-
-                    //case "Dish Name":
-                    //    {
-                    //        IEnumerable<Dish> dishes = from t in db.Dishes // определяем каждый объект из teams как t
-                    //                                   where (t.Restaurant.Address.City == search.Place 
-                    //                                   && t.Name.ToUpper() == search.TextSearch.ToUpper()
-                    //                                   || t.Name.ToUpper().Contains(search.TextSearch.ToUpper())) //фильтрация по критерию
-                    //                                   orderby t.Price  // упорядочиваем по возрастанию
-                    //                                   select t; // выбираем объект
-                    //        return RedirectToAction("ResultDishes", dishes);
-                    //    }
-
-                    //case "Ingredient":
-                    //    {
-                    //        IEnumerable<Dish> dishes = from t in db.Dishes // определяем каждый объект из teams как t
-                    //                                   where (t.Restaurant.Address.City == search.Place
-                    //                                   && t.IngredientTypes.Any(item => 
-                    //                                   item.Type.ToUpper() == search.TextSearch.ToUpper() 
-                    //                                   || item.Type.ToUpper().Contains(search.TextSearch.ToUpper())))//фильтрация по критерию
-                    //                                   orderby t.Price  // упорядочиваем по возрастанию
-                    //                                   select t; // выбираем объект
-                    //        return RedirectToAction("ResultDishes", dishes);
-                    //    }
 
                     default:
                         break;
@@ -545,7 +530,7 @@ namespace Eat.Controllers
             {
                 StringBuilder partAdr1 = new StringBuilder("https://maps.googleapis.com/maps/api/place/details/json?placeid=");
                 partAdr1.Append(restaurant.GoogleRestaurantDetails.Place_id.ToString());
-                partAdr1.Append("&fields=name,place_id,rating,review&language=ru&key=*");
+                partAdr1.Append("&fields=name,place_id,rating,review&language=ru&key=AIzaSyByiiKmBiFwlKq3ySCf38vkzXx80KIUOWc");
 
                 HttpResponseMessage response = await client.GetAsync(partAdr1.ToString());
                 //response.EnsureSuccessStatusCode();
@@ -567,6 +552,53 @@ namespace Eat.Controllers
                     restaurant.GoogleRestaurantDetails.DateTimeLastUpdate = DateTime.Now;
                     db.SaveChanges();
                 }
+            }
+        }
+
+
+        [HttpPost]
+        public JsonResult GetByFilter(FilterRestaurantsViewModel model)
+        {
+            IList<Restaurant> restaurants = null;
+            if(model.Restaurants.Count > 0)
+            {
+                restaurants = db.Restaurants.Where(n => model.Restaurants.Contains(n.Id)).ToList();
+                
+                if (model.NationalCuisinesList.Count > 0)
+                {
+                    restaurants = restaurants.Where(n => n.NationalCuisines.Select(nc => nc.Id).Intersect(model.NationalCuisinesList).ToList().Count  == model.NationalCuisinesList.Count).ToList();
+                }
+                if (model.TargetAudiencesList.Count > 0)
+                {
+                    restaurants = restaurants.Where(n => n.TargetAudiences.Select(nc => nc.Id).Intersect(model.TargetAudiencesList).ToList().Count == model.TargetAudiencesList.Count).ToList();
+                }
+                if (model.AttributesList.Count > 0)
+                {
+                    restaurants = restaurants.Where(n => n.Attributes.Select(nc => nc.Id)
+                    .Intersect(model.AttributesList).ToList().Count == model.AttributesList.Count).ToList();
+                }
+                if (model.TypeFoodsList.Count > 0)
+                {
+                    restaurants = restaurants.Where(n => n.TypeFoods.Select(nc => nc.Id)
+                    .Intersect(model.TypeFoodsList).ToList().Count == model.TypeFoodsList.Count).ToList();
+                }
+
+                string viewContent = ConvertViewToString("GetByFilter", restaurants);
+                return Json(new { PartialView = viewContent });
+            }
+            string viewContent2= ConvertViewToString("GetByFilter", restaurants);
+            return Json("error");
+        }
+
+        private string ConvertViewToString(string viewName, object model)
+        {
+            ViewData.Model = model;
+            using (StringWriter writer = new StringWriter())
+            {
+                ViewEngineResult vResult = ViewEngines.Engines.FindPartialView(ControllerContext, viewName);
+                ViewContext vContext = new ViewContext(this.ControllerContext, vResult.View, ViewData, new TempDataDictionary(), writer);
+                vResult.View.Render(vContext, writer);
+                return writer.ToString();
             }
         }
 

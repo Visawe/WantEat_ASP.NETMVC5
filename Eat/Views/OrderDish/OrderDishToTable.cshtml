@@ -1,0 +1,199 @@
+﻿@model Eat.Models.ViewModels.OrderDishToTableGetModelView
+
+@{
+    ViewBag.Title = "OrderDishToTable";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!-- Start Proerty header  -->
+<section id="aa-property-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="aa-property-header-inner">
+                    <h2>Order Dish to Table</h2>
+                    <ol class="breadcrumb">
+                        <li><a href="@Url.Action("Index", "Home")">HOME</a></li>
+                        <li class="active">Order Dish to Table</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <h4>OrderDishToTableGetModelView</h4>
+    <hr />
+    <div class="form-group">
+        @foreach (var menu in Model.GroupByMenuSection)
+        {
+            <button type="button" class="SimpleAccordion">@menu.Key.Section</button>
+            <div class="SimplePanel">
+                <table class="table">
+                    <tr>
+                        <th>
+                            Заказать
+                        </th>
+                        <th>
+                            Шт.
+                        </th>
+                        <th>
+                            Всего,грн.
+                        </th>
+                        <th>
+                            Фото
+                        </th>
+                        <th>
+                            Название
+                        </th>
+                        <th>
+                            Описание
+                        </th>
+                        <th>
+                            Вес
+                        </th>
+                        <th>
+                            Цена 1шт.
+                        </th>
+                        <th>
+                            Like
+                        </th>
+                    </tr>
+                    @{
+                        int index = 0;
+                    }
+                    @foreach (var dish in menu.Key.Dishes)
+                    {
+                        <tr>
+                            <td>
+                                <label>
+                                    <input type="checkbox"
+                                           name="SelectedDish[@index].Key"
+                                           value="@dish.Id"
+                                           list="@index" />
+                                </label>
+                            </td>
+                            <td>
+                                <label>
+                                    <input type="number"
+                                           name="SelectedDish[@index].Value"
+                                           value="0"
+                                           min="1"
+                                           list="@dish.Id"
+                                           disabled />
+                                </label>
+                            </td>
+                            @{index++;
+                            }
+                            <td></td>
+                            <td>
+                                @if (dish.PathDishFoto != null)
+                                {
+                                    <img src="@Url.Content(dish.PathDishFoto)" width="100" />
+                                }
+                            </td>
+                            <td>@dish.Name</td>
+                            <td>@dish.Description</td>
+                            <td>@dish.WeightAll</td>
+                            <td>@dish.Price</td>
+                            <td>@dish.Recommendation</td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        }
+
+
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <label>Общая сумма заказа</label>
+            <label id="TotalCost" name="TotalCost"></label>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <label>Выберете время подачи блюд(а)</label>
+            @Html.TextBoxFor(x => x.OrderTable.OrderTimeFrom, "{0:yyyy-MM-dd HH:mm}", new { @class = "form-control", @type = "datetime-local", @id = "MyDateOrder", @name = "OrderTime",
+       @min = Model.OrderTable.OrderTimeFrom, @max= Model.OrderTable.OrderTimeTo})
+            @*@Html.TextBoxFor(x => x.OrderTable.OrderTimeFrom, "{0:yyyy-MM-dd HH:mm}", new { @class = "form-control", @type = "datetime", @name = "OrderTime",@min = @Model.OrderTable.OrderTimeFrom, @max = @Model.OrderTable.OrderTimeTo })*@
+            @*<input class="form-control" type="datetime-local" name="OrderTime" value="@Model.OrderTable.OrderTimeFrom" id="example-date-input" min="@Model.OrderTable.OrderTimeFrom" max="@Model.OrderTable.OrderTimeTo">*@
+        </div>
+    </div>
+    <input type="hidden" value="@Model.OrderTable.NumberPeople" name="NumberPeople" />
+    <input type="hidden" value="@Model.Order.Id" name="OrderId" />
+    <input type="hidden" value="@Model.OrderTable.Id" name="TableId" />
+    <div class="form-group">
+        <div class="form-group col-md-12">
+            <label for="comment">Комментарий к заказу:</label>
+            <textarea class="form-control" rows="5" name="Description" id="Сomment"></textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Заказать блюда" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+    }
+
+    <script>
+        var acc = document.getElementsByClassName("SimpleAccordion");
+        var i;
+
+        for (i = 0; i < acc.length; i++) {
+            acc[i].addEventListener("click", function () {
+                this.classList.toggle("openactive");
+                var panel = this.nextElementSibling;
+                if (panel.style.maxHeight) {
+                    panel.style.maxHeight = null;
+                } else {
+                    panel.style.maxHeight = panel.scrollHeight + "px";
+                }
+            });
+        }
+    </script>
+    <script>
+        $(":checkbox").change(function () {
+            if (this.checked) {
+                var f = $(this).attr("list");
+                //alert(f);
+                $(this).parents("tr:first").addClass("success");
+                //var inputNumber = $('td:eq(1) input');
+                var inputNumber = $(this).parents("tr:first").find('td:eq(1) input');
+                inputNumber.val(1);
+                inputNumber.removeAttr("disabled");
+                var totalNumber = $(this).parents("tr:first").find('td:eq(2)');
+                var price = $(this).parents("tr:first").find('td:eq(7)');
+                //alert(inputNumber.val());
+                //alert(price.html());
+                totalNumber.text(price.html() * inputNumber.val());
+                var totalCost = $("#TotalCost");
+                totalCost.text(Number(totalCost.html()) + Number(totalNumber.html()));
+            }
+            else {
+                $(this).parents("tr:first").removeClass("success");
+                //var inputNumber = $('td:eq(1) input');
+                var inputNumber = $(this).parents("tr:first").find('td:eq(1) input');
+                var old = Number($(this).parents("tr:first").find('td:eq(2)').html());
+                $(this).parents("tr:first").find('td:eq(2)').text(0);
+                inputNumber.val(0);
+                inputNumber.attr("disabled", true);
+                var totalCost = $("#TotalCost");
+                totalCost.text(Number(totalCost.html()) - old);
+            }
+        });
+
+        $(":input[type=number]").bind('keyup mouseup', function () {
+            var totalNumber = $(this).parents("tr:first").find('td:eq(2)');
+            var price = $(this).parents("tr:first").find('td:eq(7)');
+            var dif = totalNumber.html();
+            totalNumber.text(price.html() * $(this).val());
+            var totalCost = $("#TotalCost");
+            totalCost.text(Number(totalCost.html()) - Number(dif) + Number(totalNumber.html()));
+        });
+    </script>

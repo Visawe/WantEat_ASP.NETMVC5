@@ -27,6 +27,10 @@
         <div class="row">
             <div class="col-md-8">
                 <div class="aa-properties-content">
+                    <h4>Параметры поиска:</h4>
+                    <p> @Model.ModelSearch.ToStringForRest() </p>
+                </div>
+                <div class="aa-properties-content">
                     <!-- start properties content head -->
                     <div class="aa-properties-content-head">
                         <div class="aa-properties-content-head-left">
@@ -54,13 +58,13 @@
                         </div>
                     </div>
                     <!-- Start properties content body -->
-                    <div class="aa-properties-content-body">
+                    <div class="aa-properties-content-body" id="ListRestaurants">
                         <ul class="aa-properties-nav">
                             @foreach (var item in Model.Restaurants)
                             {
                                 <li>
                                     <article class="aa-properties-item">
-                                        
+
                                         <a class="aa-properties-item-img" href="@Url.Action("ShowGalleryRestaurant","Restaurant",new { id = item.Id } )">
                                             <img alt="img" src="@Url.Content(item.PathMainFoto)" width="370" height="220">
                                             <div class="aa-properties-about"><i class="fa fa-map-marker"></i> @Html.DisplayFor(modelItem => item.Address.City) @item.Address.Street @item.Address.House</div>
@@ -79,8 +83,8 @@
 
                                                 <span class="fa fa-rectangle-wide">
                                                     @item.Tables.Count Видов столов
-                                            </span>
-                                            <span class="fa fa-cutlery">@item.Dishes.Count Блюд</span>                                           
+                                                </span>
+                                                <span class="fa fa-cutlery">@item.Dishes.Count Блюд</span>
                                             </div>
                                             <div class="aa-properties-about">
                                                 <h3><a href="@Url.Action("Details","Restaurant",new { id = item.Id } )">@Html.DisplayFor(modelItem => item.Name)</a></h3>
@@ -93,9 +97,9 @@
                                                     {
                                                         <span>@item.Description</span>
                                                     }
-                                            </p>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim molestiae vero ducimus quibusdam odit vitae.</p>
-                                        </div>
+                                                </p>
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim molestiae vero ducimus quibusdam odit vitae.</p>
+                                            </div>
                                             <div class="aa-properties-detial">
                                                 <span class="aa-price">
                                                     Чек:
@@ -103,13 +107,13 @@
                                                 </span>
                                                 @using Eat.Models.ViewModels;
                                                 <a class="aa-secondary-btn" href="@Url.Action("ViewDetailsSearchRestaurant", "Search", new { IdRest = item.Id, Place = Model.ModelSearch.Place, Date = Model.ModelSearch.Date, Time = Model.ModelSearch.Time, NumberPersons = Model.ModelSearch.NumberPersons, TypeSearch = Model.TypeSearch} )">Search Details</a>
-                                                
+
                                             </div>
-                                    </div>
+                                        </div>
                                     </article>
                                 </li>
                             }
-                            </ul>
+                        </ul>
                     </div>
                     <!-- Start properties content bottom -->
                     <div class="aa-properties-content-bottom">
@@ -122,7 +126,7 @@
                                 </li>
                                 <li class="active"><a href="#">1</a></li>
                                 <li><a href="#">2</a></li>
-                                <li ><a href="#">3</a></li>
+                                <li><a href="#">3</a></li>
                                 <li><a href="#">4</a></li>
                                 <li><a href="#">5</a></li>
                                 <li>
@@ -141,14 +145,17 @@
                     <!-- Start Single properties sidebar -->
                     <div class="aa-properties-single-sidebar">
                         <h3>Properties Search</h3>
-                        <form action="">
+                        @using (Html.BeginForm("Search", "Search", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
                             <div class="aa-single-advance-search">
-                                <input type="text" placeholder="Type Your Location" value="@Model.ModelSearch.Place">
+                                <input type="text" placeholder="Type Your Location" value="@Model.ModelSearch.Place" name="Place">
                             </div>
-                            
+
                             <div class="aa-single-advance-search ">
                                 <label for="example-date-input" class="col-md-2 col-form-label">Date</label>
-                                <input class="form-control" type="date" name="Date" value="" id="example-date-input">
+                                <input class="form-control" type="date" name="Date" />
+                                @*@Html.TextBoxFor(x => x.ModelSearch.Date.Value.Date, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date", @name = "Date" })*@
                             </div>
 
 
@@ -162,29 +169,108 @@
                                 <label for="example-number-input" class="col-md-2 col-form-label">Persons</label>
                                 <input class="form-control" type="number" name="NumberPersons" min="0" value="@Model.ModelSearch.NumberPersons" id="example-number-input">
                             </div>
-                            <div class="aa-single-filter-search">
-                                <span>AREA (SQ)</span>
-                                <span>FROM</span>
-                                <span id="skip-value-lower" class="example-val">30.00</span>
-                                <span>TO</span>
-                                <span id="skip-value-upper" class="example-val">100.00</span>
-                                <div id="aa-sqrfeet-range" class="noUi-target noUi-ltr noUi-horizontal noUi-background">
-                                </div>
-                            </div>
-                            <div class="aa-single-filter-search">
-                                <span>PRICE ($)</span>
-                                <span>FROM</span>
-                                <span id="skip-value-lower2" class="example-val">30.00</span>
-                                <span>TO</span>
-                                <span id="skip-value-upper2" class="example-val">100.00</span>
-                                <div id="aa-price-range" class="noUi-target noUi-ltr noUi-horizontal noUi-background">
-                                </div>
-                            </div>
                             <div class="aa-single-advance-search">
                                 <input type="submit" value="Search" class="aa-search-btn">
                             </div>
-                        </form>
+                        }
                     </div>
+
+                    <!-- Start Single properties sidebar -->
+                    <div class="aa-properties-single-sidebar">
+                        <h3>Filter Search</h3>
+                        @using (Html.BeginForm("Filter", "Search", FormMethod.Post))
+                        {
+
+                            @Html.AntiForgeryToken()
+                            <div class="aa-single-advance-search">
+                                <fieldset>
+                                    <legend>Тип кухни</legend>
+                                    @foreach (var item in Model.NationalCuisines)
+                                    {
+
+                                        <label>
+                                            <input type="checkbox"
+                                                   name="NationalCuisinesList"
+                                                   value="@item.Id" /> @item.Type
+                                            </label>
+                                        }
+                                </fieldset>
+                            </div>
+                            <div class="aa-single-advance-search">
+                                <fieldset>
+                                    <legend>Тип заведения</legend>
+                                    @foreach (var item in Model.TypeFoods)
+                                    {
+
+                                        <label>
+                                            <input type="checkbox"
+                                                   name="TypeFoodsList"
+                                                   value="@item.Id" /> @item.Type
+                                            </label>
+                                        }
+                                </fieldset>
+                            </div>
+                            <div class="aa-single-advance-search">
+                                <fieldset>
+                                    <legend>Аудитория</legend>
+                                    @foreach (var item in Model.TargetAudiences)
+                                    {
+
+                                        <label>
+                                            <input type="checkbox"
+                                                   name="TargetAudiencesList"
+                                                   value="@item.Id" /> @item.Type
+                                            </label>
+                                        }
+                                </fieldset>
+                            </div>
+                            <div class="aa-single-advance-search">
+                                <fieldset>
+                                    <legend>Атрибуты</legend>
+                                    @foreach (var item in Model.Attributes)
+                                    {
+
+                                        <label>
+                                            <input type="checkbox"
+                                                   name="AttributesList"
+                                                   value="@item.Id" /> @item.Type
+                                            </label>
+                                        }
+                                </fieldset>
+                            </div>
+
+
+
+                            <input type="hidden" value="@Model.Restaurants.Select(n => n.Id)" name="Restaurants" />
+
+
+
+
+                            @*<div class="aa-single-filter-search">
+                                    <span>AREA (SQ)</span>
+                                    <span>FROM</span>
+                                    <span id="skip-value-lower" class="example-val">30.00</span>
+                                    <span>TO</span>
+                                    <span id="skip-value-upper" class="example-val">100.00</span>
+                                    <div id="aa-sqrfeet-range" class="noUi-target noUi-ltr noUi-horizontal noUi-background">
+                                    </div>
+                                </div>
+                                <div class="aa-single-filter-search">
+                                    <span>PRICE ($)</span>
+                                    <span>FROM</span>
+                                    <span id="skip-value-lower2" class="example-val">30.00</span>
+                                    <span>TO</span>
+                                    <span id="skip-value-upper2" class="example-val">100.00</span>
+                                    <div id="aa-price-range" class="noUi-target noUi-ltr noUi-horizontal noUi-background">
+                                    </div>
+                                </div>*@
+                            <div class="aa-single-advance-search">
+                                <input type="submit" value="Filter Search" class="aa-search-btn" id="Filter">
+                            </div>
+                        }
+                    </div>
+
+
                     <!-- Start Single properties sidebar -->
                     <div class="aa-properties-single-sidebar">
                         <h3>Populer Properties</h3>
@@ -230,3 +316,98 @@
         </div>
     </div>
 </section>
+
+<script>
+    $("#Filter").on('click', function (e) {
+        e.preventDefault(); // <------------------ stop default behaviour of button
+        
+        var restListId = @Html.Raw(Json.Encode(Model.Restaurants.Select(n => n.Id)));
+        var typeSearch = @Html.Raw(Json.Encode(Model.TypeSearch));
+        var modelSearch = @Html.Raw(Json.Encode(Model.ModelSearch));
+        var NationalCuisinesId = new Array();
+        var checboxNationalCuisines = $("input[name = 'NationalCuisinesList']");
+        checboxNationalCuisines.each(function () {
+            if (this.checked) {
+                NationalCuisinesId.push($(this).val());               
+            }
+        });
+
+        var checboxTypeFoodsId = new Array();
+        var checboxTypeFoods = $("input[name = 'TypeFoodsList']");
+        checboxTypeFoods.each(function () {
+            if (this.checked) {
+                checboxTypeFoodsId.push($(this).val());
+            }
+        });
+
+        var TargetAudiencesId = new Array();
+        var checboxTargetAudiences = $("input[name = 'TargetAudiencesList']");
+        checboxTargetAudiences.each(function () {
+            if (this.checked) {
+                TargetAudiencesId.push($(this).val());
+            }
+        });
+        var AttributesId = new Array();
+        var checboxAttributes = $("input[name = 'AttributesList']");
+        checboxAttributes.each(function () {
+            if (this.checked) {
+                AttributesId.push($(this).val());
+            }
+        });
+
+            $.ajax({
+                url: "/Search/GetByFilter",
+                type: "POST",
+                cache: false,
+                data: JSON.stringify({
+                    'Restaurants': restListId,
+                    'ModelSearch': modelSearch,
+                    'TypeSearch': typeSearch,
+                    'NationalCuisinesList': NationalCuisinesId,
+                    'TypeFoodsList': checboxTypeFoodsId,
+                    'TargetAudiencesList': TargetAudiencesId,
+                    'AttributesList': AttributesId
+                   
+                
+                }),
+                //UpdateTargetId: "ListRestaurants",
+                //dataType: 'html',
+                dataType: "json",
+                //dataType: "html",
+                traditional: true,
+                contentType: "application/json; charset=utf-8",
+                success: function (response) {
+                    alert("Done");
+                    $('#ListRestaurants').html(response.PartialView);
+                   //$('#dialog').dialog('open');
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response) {
+                    alert(response.responseText);
+                }
+                //success: function (data)
+                //{
+                //    alert("Done");
+                //    var result = data;
+                //    $('#ListRestaurants').html(result);
+                //},
+
+                //error: function (error) {
+                //    alert('Ошибка AJAX-запроса. Обновите страницу!');
+                //}
+                //success: function (data) {
+                //    alert("Done");
+                //    // заменяем содержимое присланным частичным представлением
+                //    //$('#TimeSpan').replaceWith(data);
+                //    alert("DoneResult");
+                //},
+                //error: function () {
+                //    alert("An error has occured!!!");
+                //}
+            });
+       
+});
+</script>
+

@@ -31,7 +31,7 @@
             </div>*@
     <header class="main-header">
         <!-- Logo -->
-        @Html.ActionLink("Want Eat Admin", "Index", "Home", new { area = "" }, new { @class = "navbar-brand logo" })
+        @Html.ActionLink("Want Eat", "Index", "Home", new { area = "" }, new { @class = "navbar-brand logo" })
         @*<a href="index2.html" class="logo"><b>Admin</b>LTE</a>*@
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top" role="navigation">
@@ -255,19 +255,7 @@
                                         @*<small>Member since </small>*@
                                     </p>
                                 </li>
-                                <!-- Menu Body -->
-                                @*<li class="user-body">
-            <div class="col-xs-4 text-center">
-                <a href="#">Followers</a>
-            </div>
-            <div class="col-xs-4 text-center">
-                <a href="#">Sales</a>
-            </div>
-            <div class="col-xs-4 text-center">
-                <a href="#">Friends</a>
-            </div>
-        </li>*@
-                                @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+                                @using (Html.BeginForm("LogOff", "Account", new { area = "" }, FormMethod.Post, new { id = "logoutForm" }))
                                 {
                                     @Html.AntiForgeryToken()
                                     <!-- Menu Footer-->
@@ -316,36 +304,25 @@
                     <li class="header">MAIN NAVIGATION</li>
                     @if (this.User.IsInRole("Admin"))
                     {
-                        <li>@Html.ActionLink(" Users", "Index", "ApplicationUsers", null, new { @class = "fa fa-th" })</li>
+                        <li>@Html.ActionLink(" Users", "Index", "ApplicationUsers", new { area = "AdminArea" }, new { @class = "fa fa-users" })</li>
 
-                        <li class="treeview">
-                            <a href="#">
-                                <i class="fa fa-laptop"></i>
-                                <span>Objects</span>
-                                <i class="fa fa-angle-left pull-right"></i>
-                            </a>
-                            <ul class="treeview-menu">
-                                <li>@Html.ActionLink(" All Objects", "Index", "Restaurant", null, new { @class = "fa fa-circle-o" })</li>
-                                <li><a href="pages/UI/icons.html"><i class="fa fa-circle-o"></i> Tables</a></li>
-                                <li><a href="pages/UI/buttons.html"><i class="fa fa-circle-o"></i> Dishes</a></li>
-                                <li><a href="pages/UI/sliders.html"><i class="fa fa-circle-o"></i> Orders</a></li>
-                                <li><a href="pages/UI/timeline.html"><i class="fa fa-circle-o"></i> Reviews</a></li>
-                            </ul>
-                        </li>
+                        <li>@Html.ActionLink(" All Objects", "Index", "Restaurant", new { area = "AdminArea" }, new { @class = "fa fa-cutlery" })</li>
+                        <li>@Html.ActionLink(" Contact types", "Index", "ContactTypes", new { area = "AdminArea" }, new { @class = "fa fa-phone-square" })</li>
+                        <li>@Html.ActionLink(" Restaurant Attributes", "Index", "Attributes", new { area = "AdminArea" }, new { @class = "fa fa-cutlery" })</li>
+                        <li>@Html.ActionLink(" Ingredients", "Index", "IngredientTypes", new { area = "AdminArea" }, new { @class = "fa fa-pie-chart" })</li>
+                        <li>@Html.ActionLink(" Target Audience", "Index", "TargetAudiences", new { area = "AdminArea" }, new { @class = "fa fa-users" })</li>
+                        <li>@Html.ActionLink(" National Cuisine", "Index", "NationalCuisines", new { area = "AdminArea" }, new { @class = "fa fa-flag" })</li>
+                        <li>@Html.ActionLink(" Types of objects", "Index", "TypeFoods", new { area = "AdminArea" }, new { @class = "fa fa-th" })</li>
+                        <li><a href="@Url.Action("Index", "Tables", new { area = "AdminArea" })"><i class="fa fa-th"></i> Tables</a></li>
+                        <li><a href="@Url.Action("Index", "Dishes", new { area = "AdminArea" })"><i class="fa fa-circle-o"></i> Dishes</a></li>
+                        <li><a href="@Url.Action("Index", "Orders", new { area = "AdminArea" })"><i class="fa fa-cart-plus"></i> Orders</a></li>
+                        <li><a href="@Url.Action("Index", "OrderTables", new { area = "AdminArea" })"><i class="fa fa-cart-plus"></i> Orders Tables</a></li>
+                        <li><a href="@Url.Action("Index", "OrdersDishes", new { area = "AdminArea" })"><i class="fa fa-cart-plus"></i> Orders Dishes</a></li>
+                        <li><a href="@Url.Action("Index", "OrderDishesDetails", new { area = "AdminArea" })"><i class="fa fa-cart-plus"></i> Orders Dishes Details</a></li>
+                        <li><a href="@Url.Action("Index", "RestaurantReviews", new { area = "AdminArea" })"><i class="fa fa-comment"></i> Site Reviews</a></li>
+                        
 
-                        <li>@Html.ActionLink(" Contact types", "Index", "ContactTypes", null, new { @class = "fa fa-th" })</li>
-                        <li>@Html.ActionLink(" Restaurant Attributes", "Index", "Attributes", null, new { @class = "fa fa-th" })</li>
-                        <li>@Html.ActionLink(" Ingredients", "Index", "IngredientTypes", null, new { @class = "fa fa-th" })</li>
-                        <li>@Html.ActionLink(" Target Audience", "Index", "TargetAudiences", null, new { @class = "fa fa-th" })</li>
-                        <li>@Html.ActionLink(" National Cuisine", "Index", "NationalCuisines", null, new { @class = "fa fa-th" })</li>
-                        <li>@Html.ActionLink(" Types of products", "Index", "TypeFoods", null, new { @class = "fa fa-th" })</li>
-                        <li><a href="@Url.Action("Index", "Tables")"><i class="fa fa-circle-o"></i> Tables</a></li>
-                        <li><a href="@Url.Action("Index", "Dishes")"><i class="fa fa-circle-o"></i> Dishes</a></li>
-                        <li><a href="@Url.Action("Index", "Orders")"><i class="fa fa-circle-o"></i> Orders</a></li>
-                        <li><a href="@Url.Action("Index", "Orders")"><i class="fa fa-circle-o"></i> Orders</a></li>
-                        <li><a href="@Url.Action("Index", "OrderTables")"><i class="fa fa-circle-o"></i> Orders Tables</a></li>
-                        <li><a href="@Url.Action("Index", "OrdersDishes")"><i class="fa fa-circle-o"></i> Orders Dishes</a></li>
-                        <li><a href="@Url.Action("Index", "OrderDishesDetails")"><i class="fa fa-circle-o"></i> Orders Dishes Details</a></li>
+
                     }
                     else if (this.User.IsInRole("User"))
                     {

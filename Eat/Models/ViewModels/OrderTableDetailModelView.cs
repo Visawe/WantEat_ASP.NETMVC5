@@ -13,5 +13,8 @@ namespace Eat.Models.ViewModels
         public DateTime? Date { get; set; }
         public TimeSpan? Time { get; set; }
         public ushort? NumberPersons { get; set; }
+        public List<TimeSpan> MyTimeSpans { get; set; }
+        public TimeSpan TimeTo { get; set; }
+        public DateTime DateTimeTo { get; set; }
     }
 }

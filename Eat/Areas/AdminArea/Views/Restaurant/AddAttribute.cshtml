@@ -27,7 +27,7 @@ $('#btnSave').click(function (e) {
     var element = this;
     var id = @Html.Raw(Json.Encode(Model.Id));
     $.ajax({
-        url: "/Restaurant/AddAttributeToRestaurant",
+        url: "/AdminArea/Restaurant/AddAttributeToRestaurant",
         type: "POST",
         data: JSON.stringify({ 'id': id, 'attribute': $('#TypeAttribute').val()}),
         dataType: "json",
@@ -36,7 +36,6 @@ $('#btnSave').click(function (e) {
         success: function (data) {
             if (data.status == "Success") {
                 alert("Done");
-                $(element).closest("form").submit(); //<------------ submit form
             } else {
                 alert("Error occurs on the Database level!");
             }

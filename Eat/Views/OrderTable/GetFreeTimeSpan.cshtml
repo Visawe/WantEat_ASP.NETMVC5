@@ -1,0 +1,15 @@
+﻿@model  IList<System.TimeSpan>
+
+<ul id="TimeSpan">
+    @foreach (var item in Model)
+    {
+        <li class="btn btn-default">@item</li>
+    }
+</ul>
+<script>
+    $("#TimeSpan li").on("click", function () {
+        $('#TimeSpan li.active').removeClass('active btn-primary');
+        $('#TimeSpan li.active').addClass('active btn-default');
+        $(this).addClass("active btn-primary");
+    });
+</script>

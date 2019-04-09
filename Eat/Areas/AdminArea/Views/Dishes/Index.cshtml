@@ -5,96 +5,102 @@
     Layout = "~/Areas/AdminArea/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<h2>Dishes</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.MenuSection.Section)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PriceCurrency.Type)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Restaurant.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.WeightUnit.Type)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PathDishFoto)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.WeightAll)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.WeightPart)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Price)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Recommendation)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Availability)
-        </th>
-        <th></th>
-    </tr>
+<div class="table-responsive">
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.MenuSection.Section)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PriceCurrency.Type)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Restaurant.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WeightUnit.Type)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PathDishFoto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WeightAll)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WeightPart)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Recommendation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Availability)
+            </th>
+            <th></th>
+        </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.MenuSection.Section)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PriceCurrency.Type)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Restaurant.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.WeightUnit.Type)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PathDishFoto)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.WeightAll)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.WeightPart)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Price)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Recommendation)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Availability)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MenuSection.Section)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PriceCurrency.Type)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Restaurant.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WeightUnit.Type)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @if (item.PathDishFoto != null)
+                    {
+                        <img src="@Url.Content(item.PathDishFoto)" width="100" height="100" />
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WeightAll)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WeightPart)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Recommendation)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Availability)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
 
-</table>
+    </table>
+</div>

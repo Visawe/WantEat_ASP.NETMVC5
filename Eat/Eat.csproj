@@ -202,6 +202,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\OrderDishController.cs" />
     <Compile Include="Controllers\OrderTableController.cs" />
     <Compile Include="Controllers\RestaurantController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
@@ -292,6 +293,22 @@
     <Compile Include="Migrations\201903061651009_MigrateAddMinutes3.Designer.cs">
       <DependentUpon>201903061651009_MigrateAddMinutes3.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201903201231316_MigrateDBDatetime2Order.cs" />
+    <Compile Include="Migrations\201903201231316_MigrateDBDatetime2Order.Designer.cs">
+      <DependentUpon>201903201231316_MigrateDBDatetime2Order.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903201321180_MigrateDBDatetime2OrderDish.cs" />
+    <Compile Include="Migrations\201903201321180_MigrateDBDatetime2OrderDish.Designer.cs">
+      <DependentUpon>201903201321180_MigrateDBDatetime2OrderDish.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903221041290_MigrateDBaddTableToOrderDish.cs" />
+    <Compile Include="Migrations\201903221041290_MigrateDBaddTableToOrderDish.Designer.cs">
+      <DependentUpon>201903221041290_MigrateDBaddTableToOrderDish.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903221048442_MigrateDBaddOrderTableToOrderDish.cs" />
+    <Compile Include="Migrations\201903221048442_MigrateDBaddOrderTableToOrderDish.Designer.cs">
+      <DependentUpon>201903221048442_MigrateDBaddOrderTableToOrderDish.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Address.cs" />
@@ -302,6 +319,7 @@
     <Compile Include="Models\Currency.cs" />
     <Compile Include="Models\CurrencyRate.cs" />
     <Compile Include="Models\Dish.cs" />
+    <Compile Include="Models\Enum.cs" />
     <Compile Include="Models\GeoIPLocation.cs" />
     <Compile Include="Models\GeoName.cs" />
     <Compile Include="Models\GoogleRestaurantDetails.cs" />
@@ -327,11 +345,16 @@
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\GoogleReview.cs" />
     <Compile Include="Models\ViewModels\DishResultSearchViewModel.cs" />
+    <Compile Include="Models\ViewModels\FilterRestaurantsViewModel.cs" />
     <Compile Include="Models\ViewModels\ModelSearch.cs" />
+    <Compile Include="Models\ViewModels\OrderDishToTableGetModelView.cs" />
+    <Compile Include="Models\ViewModels\OrderTableDetail.cs" />
     <Compile Include="Models\ViewModels\OrderTableDetailModelView.cs" />
+    <Compile Include="Models\ViewModels\OrderTableModelViewPost.cs" />
     <Compile Include="Models\ViewModels\RestaurantAdsressViewModel.cs" />
     <Compile Include="Models\ViewModels\RestaurantDetailsSearchViewModel.cs" />
     <Compile Include="Models\ViewModels\RestaurantResultSearchViewModel.cs" />
+    <Compile Include="Models\ViewModels\SelectedDishViewModel.cs" />
     <Compile Include="Models\ViewModels\StartIndexViewModel.cs" />
     <Compile Include="Models\ViewModels\UserProfileUpdateViewModel.cs" />
     <Compile Include="Models\ViewModels\ViewDetailsSearchModel.cs" />
@@ -346,6 +369,7 @@
     <Content Include="Content\bootstrap\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap\bootstrap.css" />
     <Content Include="Content\bootstrap\bootstrap.min.css" />
+    <Content Include="Content\img\slider\ajax-loader.gif" />
     <Content Include="Content\skin-green.css" />
     <Content Include="Content\skin-green.min.css" />
     <Content Include="Content\themes\base\accordion.css" />
@@ -566,6 +590,8 @@
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui-1.12.1.js" />
     <Content Include="Scripts\jquery-ui-1.12.1.min.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -622,8 +648,13 @@
     <Content Include="Views\ProfileUsers\EditProfile.cshtml" />
     <Content Include="Views\ProfileUsers\Index.cshtml" />
     <Content Include="Views\Search\ViewDetailsSearchRestaurant.cshtml" />
-    <Content Include="Views\OrderTable\OrderTableDetail.cshtml" />
     <Content Include="Views\Search\ResultDishes.cshtml" />
+    <Content Include="Views\OrderTable\OrderTableDetail.cshtml" />
+    <Content Include="Views\OrderTable\GetFreeTimeSpan.cshtml" />
+    <Content Include="Views\OrderTable\SuccessOrderTable.cshtml" />
+    <Content Include="Views\OrderDish\OrderDishToTable.cshtml" />
+    <Content Include="Views\OrderDish\OrderDishToTableResult.cshtml" />
+    <Content Include="Views\Search\GetByFilter.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -706,6 +737,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201903061651009_MigrateAddMinutes3.resx">
       <DependentUpon>201903061651009_MigrateAddMinutes3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903201231316_MigrateDBDatetime2Order.resx">
+      <DependentUpon>201903201231316_MigrateDBDatetime2Order.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903201321180_MigrateDBDatetime2OrderDish.resx">
+      <DependentUpon>201903201321180_MigrateDBDatetime2OrderDish.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903221041290_MigrateDBaddTableToOrderDish.resx">
+      <DependentUpon>201903221041290_MigrateDBaddTableToOrderDish.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903221048442_MigrateDBaddOrderTableToOrderDish.resx">
+      <DependentUpon>201903221048442_MigrateDBaddOrderTableToOrderDish.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

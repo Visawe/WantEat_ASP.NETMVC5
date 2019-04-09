@@ -33,7 +33,7 @@ namespace Eat.Migrations
 
            
             var admin = new ApplicationUser { Email = "ssamyraika@gmail.com", UserName = "ssamyraika@gmail.com" };
-            string password = "*.";
+            string password = "121233TestAd.";
             var result = userManager.Create(admin, password);
 
             

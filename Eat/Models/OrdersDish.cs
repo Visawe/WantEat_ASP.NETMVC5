@@ -17,6 +17,7 @@ namespace Eat.Models
         public int Id { get; set; }
 
         public int? OrderId { get; set; }
+        public int? OrderTableId { get; set; }
 
         [Required]
         [StringLength(30)]
@@ -67,6 +68,8 @@ namespace Eat.Models
         public virtual ICollection<OrderDishesDetail> OrderDishesDetails { get; set; }
 
         public virtual Order Order { get; set; }
+
+        public virtual OrderTable OrderTable { get; set; }
 
         public virtual ApplicationUser User { get; set; }
 
